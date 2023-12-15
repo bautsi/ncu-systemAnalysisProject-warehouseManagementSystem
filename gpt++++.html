@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理介面</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e9eef3; /* This sets the background color of the entire page */
+    margin: 0;
+    padding: 20px;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .header h1 {
+    margin: 0;
+    color: #333;
+  }
+  .home-button {
+    padding: 10px 15px;
+    background-color: #5c90d2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    border-radius: 5px;
+  }
+  .search-area {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* This will prevent the search fields from stacking */
+  }
+  .search-area .search-field {
+    flex-basis: calc(33.333% - 10px); /* Adjust the width of each search field */
+    margin-bottom: 10px;
+  }
+  .search-area .button-container {
+    flex-basis: 100%;
+    text-align: right;
+  }
+  .search-area button {
+    padding: 10px 15px;
+    background-color: #5c90d2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  table th, table td {
+    padding: 10px;
+    border: 1px solid #dce4ec;
+  }
+  table th {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+  table tr:nth-child(even) td {
+    background-color: #f9f9f9;
+  }
+  .action-icons {
+    display: flex;
+    justify-content: center;
+  }
+  .icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin: 0 5px;
+    text-align: center;
+    cursor: pointer;
+  }
+  /* Replace these with actual icon image tags or classes from an icon font library */
+  .icon-edit::before {
+    content: '✏️'; /* Placeholder for edit icon */
+  }
+  .icon-delete::before {
+    content: '🗑️'; /* Placeholder for delete icon */
+  }
+  .icon-transfer::before {
+    content: '🔄'; /* Placeholder for transfer icon */
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>產品管理</h1>
+  <button class="home-button">回首頁</button>
+</div>
+
+<div class="container">
+  <div class="search-area">
+    <div class="search-field">
+      <input type="text" placeholder="產品名稱">
+    </div>
+    <div class="search-field">
+      <input type="text" placeholder="產品編號">
+    </div>
+    <div class="search-field">
+      <input type="text" placeholder="產品描述">
+    </div>
+    <div class="button-container">
+      <button>新增產品</button>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>產品編號</th>
+        <th>產品名稱</th>
+        <th>產品價格</th>
+        <th>更新時間</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>筆</td>
+        <td>30</td>
+        <td>2023/11/25 14:50</td>
+        <td class="action-icons">
+          <span class="icon icon-delete" title="刪除"></span>
+          <span class="icon icon-edit" title="編輯"></span>
+          <span class="icon icon-transfer" title="移轉"></span>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>橡皮擦</td>
+        <td>150</td>
+        <td>2023/11/25 14:53</td>
+        <td class="action-icons">
+          <span class="icon icon-delete" title="刪除"></span>
+          <span class="icon icon-edit" title="編輯"></span>
+          <span class="icon icon-transfer" title="移轉"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
