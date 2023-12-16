@@ -1,5 +1,3 @@
-//package ;
-
 import java.sql.*;
 import org.json.*;
 
