@@ -1,13 +1,12 @@
-package ncu.im3069.demo.controller;
+package juanan.WEBINF.classes.demo.controller;
 
-import java.io.IOException;
-import javax.servlet.annotation.WebServlet;
+import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.json.*;
-
-import ncu.im3069.demo.app.ProductHelper;
-import ncu.im3069.tools.JsonReader;
+import juanan.WEBINF.classes.demo.app.*;
+import tools.JsonReader;
+import javax.servlet.annotation.WebServlet;
 
 @WebServlet("/api/product.do")
 public class ProductController extends HttpServlet {

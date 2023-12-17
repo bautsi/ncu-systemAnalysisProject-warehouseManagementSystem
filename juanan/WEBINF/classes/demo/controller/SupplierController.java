@@ -1,16 +1,11 @@
-package demo.controller;
+package juanan.WEBINF.classes.demo.controller;
 
-import java.io.IOException;
+import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.json.*;
-
-import ncu.im3069.demo.app.Order;
-import ncu.im3069.demo.app.Product;
-import ncu.im3069.demo.app.ProductHelper;
-import ncu.im3069.demo.app.OrderHelper;
-import ncu.im3069.tools.JsonReader;
-
+import demo.app.SupplierHelper;
+import tools.JsonReader;
 import javax.servlet.annotation.WebServlet;
 
 @WebServlet("/api/order.do")

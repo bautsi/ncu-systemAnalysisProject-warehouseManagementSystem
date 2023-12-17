@@ -1,7 +1,9 @@
+package juanan.WEBINF.classes.demo.app;
+
 import java.sql.*;
 import org.json.*;
 
-//import DBMgr;
+import juanan.WEBINF.classes.demo.util.DBMgr;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -173,72 +175,72 @@ public class ManagerHelper {
      * @param manager_id 管理員編號
      * @return the JSON object 回傳SQL執行結果與該管理員編號之管理員資料
      */
-    //public JSONObject getBymanager_id(String manager_id) {
+    public JSONObject getById(String manager_id) {
         /** 新建一個 Manager 物件之 m 變數，用於紀錄每一位查詢回之管理員資料 */
-        //Manager m = null;
+        Manager m = null;
         /** 用於儲存所有檢索回之管理員，以JSONArray方式儲存 */
-        //JSONArray jsa = new JSONArray();
+        JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
-        //String exexcute_sql = "";
+        String exexcute_sql = "";
         /** 紀錄SQL總行數 */
-        //int row = 0;
+        int row = 0;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
-        //ResultSet rs = null;
+        ResultSet rs = null;
         
-        //try {
+        try {
             /** 取得資料庫之連線 */
-            //conn = DBMgr.getConnection();
+            conn = DBMgr.getConnection();
             /** SQL指令 */
-            //String sql = "SELECT * FROM `missa`.`manager` WHERE `manager_id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `missa`.`manager` WHERE `manager_id` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中 */
-            //pres = conn.prepareStatement(sql);
-            //pres.setString(1, manager_id);
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, manager_id);
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
-            //rs = pres.executeQuery();
+            rs = pres.executeQuery();
 
             /** 紀錄真實執行的SQL指令，並印出 **/
-            //exexcute_sql = pres.toString();
-            //System.out.println(exexcute_sql);
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
             
             /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
             /** 正確來說資料庫只會有一筆該管理員編號之資料，因此其實可以不用使用 while 迴圈 */
-            //while(rs.next()) {
+            while(rs.next()) {
                 /** 每執行一次迴圈表示有一筆資料 */
-                //row += 1;
+                row += 1;
                 
                 /** 將 ResultSet 之資料取出 */
-                //int manager_manager_id = rs.getInt("manager_id");
-                //String manager_name = rs.getString("manager_name");
-                //String manager_email = rs.getString("manager_email");
-                //String manager_password = rs.getString("manager_password");
+                int manager_manager_id = rs.getInt("manager_id");
+                String manager_name = rs.getString("manager_name");
+                String manager_email = rs.getString("manager_email");
+                String manager_password = rs.getString("manager_password");
                 
                 /** 將每一筆管理員資料產生一名新Manager物件 */
-                //m = new Manager(manager_manager_id, manager_email, manager_password, manager_name);
+                m = new Manager(manager_manager_id, manager_name, manager_email, manager_password);
                 /** 取出該名管理員之資料並封裝至 JSONsonArray 內 */
-                //jsa.put(m.getData());
-            //}
+                jsa.put(m.getData());
+            }
             
-        //} catch (SQLException e) {
+        } catch (SQLException e) {
             /** 印出JDBC SQL指令錯誤 **/
-            //System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
-        //} catch (Exception e) {
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
             /** 若錯誤則印出錯誤訊息 */
-            //e.printStackTrace();
-        //} finally {
+            e.printStackTrace();
+        } finally {
             /** 關閉連線並釋放所有資料庫相關之資源 **/
-            //DBMgr.close(rs, pres, conn);
-        //}
+            DBMgr.close(rs, pres, conn);
+        }
         
         
         /** 將SQL指令、花費時間、影響行數與所有管理員資料之JSONArray，封裝成JSONObject回傳 */
-        //JSONObject response = new JSONObject();
-        //response.put("sql", exexcute_sql);
-        //response.put("row", row);
-        //response.put("data", jsa);
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("data", jsa);
 
-        //return response;
-    //}
+        return response;
+    }
     
     /**
      * 檢查該名管理員之電子郵件信箱是否重複註冊
