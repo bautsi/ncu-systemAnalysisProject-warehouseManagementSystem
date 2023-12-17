@@ -1,53 +1,63 @@
 package juanan.WEBINF.classes.demo.controller;
 
-import java.io.*;
+import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.json.*;
-import juanan.WEBINF.classes.demo.app.*;
-import tools.JsonReader;
+
+import juanan.WEBINF.classes.demo.app.WarehouseHelper;
+import juanan.WEBINF.classes.tools.JsonReader;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/api/product.do")
-public class ProductController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@WebServlet("/api/warehouse.do")
+public class WarehouseController extends HttpServlet {
 
-	private ProductHelper ph =  ProductHelper.getHelper();
+    private static final long serialVersionUID = 1L;
+    private WarehouseHelper wh = WarehouseHelper.getHelper();
 
-    public ProductController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JsonReader jsr = new JsonReader(request);
-        /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
-        String id_list = jsr.getParameter("id_list");
+        String action = jsr.getParameter("action");
 
         JSONObject resp = new JSONObject();
-        /** 判斷該字串是否存在，若存在代表要取回購物車內產品之資料，否則代表要取回全部資料庫內產品之資料 */
-        if (!id_list.isEmpty()) {
-          JSONObject query = ph.getByIdList(id_list);
-          resp.put("status", "200");
-          resp.put("message", "所有購物車之商品資料取得成功");
-          resp.put("response", query);
-        }
-        else {
-          JSONObject query = ph.getAll();
-
-          resp.put("status", "200");
-          resp.put("message", "所有商品資料取得成功");
-          resp.put("response", query);
+        if ("getAll".equals(action)) {
+            resp = wh.getAllWarehouses();
+        } else {
+            // 其他 GET 请求的处理
         }
 
         jsr.response(resp, response);
-	}
+    }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        JsonReader jsr = new JsonReader(request);
+        JSONObject jso = jsr.getObject();
+        String action = jso.optString("action");
 
+        JSONObject resp = new JSONObject();
+        switch (action) {
+            case "add":
+                String warehouseName = jso.getString("warhouse_name");
+                String warehouseLocation = jso.getString("warhouse_location");
+                int managerId = jso.getInt("manager_id");
+                resp = wh.addWarehouse(warehouseName, warehouseLocation, managerId);
+                break;
+            case "delete":
+                int warehouseId = jso.getInt("warhouse_id");
+                resp = wh.deleteWarehouse(warehouseId);
+                break;
+            case "update":
+                warehouseId = jso.getInt("warhouse_id");
+                warehouseName = jso.getString("warhouse_name");
+                warehouseLocation = jso.getString("warhouse_location");
+                resp = wh.updateWarehouse(warehouseId, warehouseName, warehouseLocation);
+                break;
+            default:
+                resp.put("status", "400");
+                resp.put("message", "Invalid request operation");
+                break;
+        }
+
+        jsr.response(resp, response);
+    }
 }
