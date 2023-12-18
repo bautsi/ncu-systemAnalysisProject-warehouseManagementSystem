@@ -152,6 +152,4 @@ public class Manager {
             this.list.get(i).setID((int) data.getLong(i));
         }
     }
-
-    //管理員編號設定的部分可能會出事
 }
