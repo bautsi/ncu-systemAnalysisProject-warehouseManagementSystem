@@ -312,9 +312,9 @@ public class ManagerHelper {
                     + " VALUES(?, ?, ?)";
             
             /** 取得所需之參數 */
-            String manager_name = m.getmanager_name();
+            String manager_name = m.getName();
             String manager_email = m.getEmail();
-            String manager_password = m.getmanager_password();
+            String manager_password = m.getPassword();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -369,9 +369,9 @@ public class ManagerHelper {
             /** SQL指令 */
             String sql = "Update `missa`.`manager` SET `manager_name` = ? ,`manager_password` = ? WHERE `manager_email` = ?";
             /** 取得所需之參數 */
-            String manager_name = m.getmanager_name();
+            String manager_name = m.getName();
             String manager_email = m.getEmail();
-            String manager_password = m.getmanager_password();
+            String manager_password = m.getPassword();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -404,7 +404,7 @@ public class ManagerHelper {
 
         return response;
     }
-    
+
     /**
      * 验证管理員的登录凭据
      *
