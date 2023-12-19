@@ -405,161 +405,37 @@ public class ManagerHelper {
         return response;
     }
     
+    /**
+     * 验证管理員的登录凭据
+     *
+     * @param email 管理员的电子邮件
+     * @param password 管理员的密码
+     * @return 如果凭据有效，则返回 true，否则返回 false
+     */
+    public boolean validateLogin(String email, String password) {
+        ResultSet rs = null;
+
+        try {
+            conn = DBMgr.getConnection();
+            String sql = "SELECT count(*) FROM `missa`.`manager` WHERE `manager_email` = ? AND `manager_password` = ?";
+            
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, email);
+            pres.setString(2, password);
+            rs = pres.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBMgr.close(rs, pres, conn);
+        }
+
+        return false;
+    }
 }
-
-//1     package 要弄
-//6     import DBMgr名字要改      
-//62    /** 紀錄程式開始執行時間 */ 出事放回去 +113 +185 +304
-//63    //long start_time = System.nanoTime();
-//71    database名稱missa要改 +123
-//93    /** 紀錄程式結束執行時間 */ 出事放回去
-//94    long end_time = System.nanoTime(); +342 +363
-//95    /** 紀錄程式執行時間 */ 出事放回去
-//96    long duration = (end_time - start_time); +164 +216
-//98    response.put("time", duration); 出事放回去 +167 +217 +240 +347
-//144   int login_times = rs.getInt("login_times"); 以下兩個要放回去的話 146+219要+回去
-//145   String status = rs.getString("status");
-//161   /** 紀錄程式結束執行時間 */ +234 +398
-//162   long end_time = System.nanoTime();
-//163   /** 紀錄程式執行時間 */ +235
-//244
-/**
-     * 取得該名管理員之更新時間與所屬之管理員組別
-     *
-     * @param m 一名管理員之Manager物件
-     * @return the JSON object 回傳該名管理員之更新時間與所屬組別（以JSONObject進行封裝）
-     */
-    //public JSONObject getLoginTimesStatus(Manager m) {
-        /** 用於儲存該名管理員所檢索之更新時間分鐘數與管理員組別之資料 */
-        //JSONObject jso = new JSONObject();
-        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
-        //ResultSet rs = null;
-
-        //try {
-            /** 取得資料庫之連線 */
-            //conn = DBMgr.getConnection();
-            /** SQL指令 */
-            //String sql = "SELECT * FROM `missa`.`manager` WHERE `manager_id` = ? LIMIT 1";
-            
-            /** 將參數回填至SQL指令當中 */
-            //pres = conn.prepareStatement(sql);
-            //pres.setInt(1, m.getmanager_id());
-            /** 執行查詢之SQL指令並記錄其回傳之資料 */
-            //rs = pres.executeQuery();
-            
-            /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
-            /** 正確來說資料庫只會有一筆該電子郵件之資料，因此其實可以不用使用 while迴圈 */
-            //while(rs.next()) {
-                /** 將 ResultSet 之資料取出 */
-                //int login_times = rs.getInt("login_times");
-                //String status = rs.getString("status");
-                /** 將其封裝至JSONObject資料 */
-                //jso.put("login_times", login_times);
-                //jso.put("status", status);
-            //}
-            
-        //} catch (SQLException e) {
-            /** 印出JDBC SQL指令錯誤 **/
-            //System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
-        //} catch (Exception e) {
-            /** 若錯誤則印出錯誤訊息 */
-            //e.printStackTrace();
-        //} finally {
-            /** 關閉連線並釋放所有資料庫相關之資源 **/
-            //DBMgr.close(rs, pres, conn);
-        //}
-
-        //return jso;
-    //}
-//318   int login_times = m.getLoginTimes();
-//319   String status = m.getStatus();
-//324   pres.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
-//325   pres.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-//326   pres.setInt(6, login_times);
-//327   pres.setString(7, status);
-//370   , `modified` = ? 
-//380   pres.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-//403   response.put("time", duration);
-//407
-    /**
-     * 更新管理員更新資料之分鐘數
-     *
-     * @param m 一名管理員之Manager物件
-     */
-    //public vomanager_id updateLoginTimes(Manager m) {
-        /** 更新時間之分鐘數 */
-        //int new_times = m.getLoginTimes();
-        
-        /** 記錄實際執行之SQL指令 */
-        //String exexcute_sql = "";
-        
-        //try {
-            /** 取得資料庫之連線 */
-            //conn = DBMgr.getConnection();
-            /** SQL指令 */
-            //String sql = "Update `missa`.`manager` SET `login_times` = ? WHERE `manager_id` = ?";
-            /** 取得管理員編號 */
-            //int manager_id = m.getmanager_id();
-            
-            /** 將參數回填至SQL指令當中 */
-            //pres = conn.prepareStatement(sql);
-            //pres.setInt(1, new_times);
-            //pres.setInt(2, manager_id);
-            /** 執行更新之SQL指令 */
-            //pres.executeUpdate();
-
-            /** 紀錄真實執行的SQL指令，並印出 **/
-            //exexcute_sql = pres.toString();
-            //System.out.println(exexcute_sql);
-
-        //} catch (SQLException e) {
-            /** 印出JDBC SQL指令錯誤 **/
-            //System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
-        //} catch (Exception e) {
-            /** 若錯誤則印出錯誤訊息 */
-            //e.printStackTrace();
-        //} finally {
-            /** 關閉連線並釋放所有資料庫相關之資源 **/
-            //DBMgr.close(pres, conn);
-        //}
-    //}
-    
-    /**
-     * 更新管理員之管理員組別
-     *
-     * @param m 一名管理員之Manager物件
-     * @param status 管理員組別之字串（String）
-     */
-    //public vomanager_id updateStatus(Manager m, String status) {      
-        /** 記錄實際執行之SQL指令 */
-        //String exexcute_sql = "";
-        
-        //try {
-            /** 取得資料庫之連線 */
-            //conn = DBMgr.getConnection();
-            /** SQL指令 */
-            //String sql = "Update `missa`.`manager` SET `status` = ? WHERE `manager_id` = ?";
-            /** 取得管理員編號 */
-            //int manager_id = m.getmanager_id();
-            
-            /** 將參數回填至SQL指令當中 */
-            //pres = conn.prepareStatement(sql);
-            //pres.setString(1, status);
-            //pres.setInt(2, manager_id);
-            /** 執行更新之SQL指令 */
-            //pres.executeUpdate();
-
-            /** 紀錄真實執行的SQL指令，並印出 **/
-            //exexcute_sql = pres.toString();
-            //System.out.println(exexcute_sql);
-        //} catch (SQLException e) {
-            /** 印出JDBC SQL指令錯誤 **/
-            //System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
-        //} catch (Exception e) {
-            /** 若錯誤則印出錯誤訊息 */
-            //e.printStackTrace();
-        //} finally {
-            /** 關閉連線並釋放所有資料庫相關之資源 **/
-            //DBMgr.close(pres, conn);
-        //}
-    //}
