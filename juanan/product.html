@@ -110,7 +110,6 @@
       }
 
       .btn-purple {
-        @extend .btn;
         background-color: #6a5acd;
         color: white;
       }
@@ -132,7 +131,7 @@
     <div class="segmented-control">
       <h2 class="mb-4">產品管理</h2>
       <a
-        href="#_"
+        href="home.html"
         class="home-button rounded-md px-2 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-indigo-600 text-indigo-600 focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 focus:ring-opacity-50 hover:bg-indigo-600 hover:text-white"
         style="position: absolute; top: 0; right: 0; z-index: 1"
       >
@@ -267,21 +266,24 @@
         }
 
         const tbody = document.querySelector("#productTable tbody");
+        const newProductId = tbody.children.length + 1; // 新增這行代碼
+
         const row = document.createElement("tr");
         row.innerHTML = `
-                <td>${productName}</td>
-                <td>${supplierId}</td>
-                <td>${warehouseLocation}</td>
-                <td>${productQuantity}</td>
-                <td>${productPrice}</td>
-                <td>
-                    <button class="btn-purple" onclick="editProduct('${productName}')">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                    </button>
-                    <button class="btn-purple" onclick="deleteProduct('${productName}')">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                </td>
+          <td>${newProductId}</td>
+          <td>${productName}</td>
+          <td>${supplierId}</td>
+          <td>${warehouseLocation}</td>
+          <td>${productQuantity}</td>
+          <td>${productPrice}</td>
+          <td>
+        <button class="btn-purple edit-button" onclick="editProduct('${newProductId}')">
+            <i class="fa-regular fa-pen-to-square"></i>
+        </button>
+        <button class="btn-purple delete-button" onclick="deleteProduct('${newProductId}')">
+            <i class="fa-regular fa-trash-can"></i>
+        </button>
+    </td>
             `;
         tbody.appendChild(row);
 
@@ -290,30 +292,56 @@
         document.getElementById("warehouseLocation").value = "";
         document.getElementById("productQuantity").value = "";
         document.getElementById("productPrice").value = "";
+
+        alert("新增成功");
       }
 
-      function editProduct(productName) {
-        const newSupplierId = prompt("請輸入新的供應商編號:");
-        const newWarehouseLocation = prompt("請輸入新的倉庫地址:");
-        const newQuantity = prompt("請輸入新的產品數量:");
-        const newPrice = prompt("請輸入新的產品價格:");
-
+      function editProduct(productId) {
         const rows = document.querySelectorAll("#productTable tbody tr");
         rows.forEach((row) => {
-          if (row.cells[0].textContent === productName) {
-            row.cells[1].textContent = newSupplierId;
-            row.cells[2].textContent = newWarehouseLocation;
-            row.cells[3].textContent = newQuantity;
-            row.cells[4].textContent = newPrice;
+          if (row.cells[0].textContent === productId.toString()) {
+            // 对每个可编辑的单元格进行操作
+            for (let i = 1; i < row.cells.length - 1; i++) {
+              // 假设最后一个单元格是操作按钮
+              const currentText = row.cells[i].textContent;
+              row.cells[
+                i
+              ].innerHTML = `<input type='text' value='${currentText}' />`;
+            }
+
+            // 更新按钮的事件处理函数
+            const editButton =
+              row.cells[row.cells.length - 1].querySelector("button");
+            editButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
+            editButton.onclick = () => saveProduct(productId);
+          }
+        });
+      }
+
+      function saveProduct(productId) {
+        const rows = document.querySelectorAll("#productTable tbody tr");
+        rows.forEach((row) => {
+          if (row.cells[0].textContent === productId.toString()) {
+            for (let i = 1; i < row.cells.length - 1; i++) {
+              const input = row.cells[i].querySelector("input");
+              row.cells[i].textContent = input.value;
+            }
+
+            // 更新按钮的事件处理函数
+            const saveButton =
+              row.cells[row.cells.length - 1].querySelector("button");
+            saveButton.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>`;
+            saveButton.onclick = () => editProduct(productId);
+
             alert("編輯成功");
           }
         });
       }
 
-      function deleteProduct(productName) {
+      function deleteProduct(productId) {
         const rows = document.querySelectorAll("#productTable tbody tr");
         rows.forEach((row) => {
-          if (row.cells[0].textContent === productName) {
+          if (row.cells[0].textContent === productId) {
             row.remove();
             alert("刪除成功");
           }
