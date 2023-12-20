@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>倉庫管理</title>
+    <script src="https://kit.fontawesome.com/9b680ef726.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="statics/css/search.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #B0C4DE, #6495ED);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 100vh;
+            margin: 0;
+            padding: 50px;
+        }
+
+        h2,
+        h3 {
+            color: #333;
+            font-size: 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            background-color: #fff;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #5596f0;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #5596f0;
+        }
+
+        div {
+            margin-top: 5px;
+        }
+
+        input,
+        button {
+            padding: 8px;
+            margin-right: 10px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* FORM */
+        .form {
+            grid-column: 3 / 4;
+            grid-row: 3 / 4;
+        }
+
+        .form__input {
+            width: 10rem;
+            height: 2rem;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1.4rem;
+            padding-left: 1.4rem;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+            background: none;
+            font-family: inherit;
+            color: var(--greyDark);
+        }
+
+        .form__input::placeholder {
+            color: var(--greyLight-3);
+        }
+
+        .form__input:focus {
+            outline: none;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .segmented-control {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form__label {
+            margin-right: 10px;
+        }
+
+        .btn {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .btn-purple {
+            @extend .btn;
+            background-color: #6A5ACD;
+            color: white;
+        }
+
+        .add-warehouse-button {
+            margin-top: auto;
+            margin-bottom: auto;
+            margin-left: 10px;
+        }
+
+        .home-button {
+            margin-left: auto;
+            order: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="segmented-control">
+        <h2 class="mb-4">倉庫管理</h2>
+        <a href="#_"
+            class="home-button rounded-md px-2 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-indigo-600 text-indigo-600 focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 focus:ring-opacity-50 hover:bg-indigo-600 hover:text-white"
+            style="position: absolute; top: 0; right: 0; z-index: 1;">
+            <span
+                class="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-indigo-600 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
+            <span class="relative text-indigo-600 transition duration-300 group-hover:text-white ease">回首頁</span>
+        </a>
+    </div>
+    <div class="segmented-control">
+        <div class="flex">
+            <label for="warehouseName" class="form__label">倉庫名稱:</label>
+            <input type="text" id="warehouseName" class="form__input" required>
+
+            <label for="warehouseLocation" class="form__label">倉庫位置:</label>
+            <input type="text" id="warehouseLocation" class="form__input" required>
+        </div>
+
+        <div class="add-warehouse-button">
+            <button class="btn-purple" onclick="addWarehouse()">
+                <span><i class="fa-regular fa-square-plus"></i></span>
+            </button>
+        </div>
+    </div>
+
+    <table id="warehouseTable">
+        <thead>
+            <tr>
+                <th>倉庫編號</th>
+                <th>倉庫名稱</th>
+                <th>倉庫位置</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 此處應顯示資料庫中的倉庫列表 -->
+        </tbody>
+    </table>
+
+    <script>
+        function addWarehouse() {
+            const warehouseName = document.getElementById('warehouseName').value;
+            const warehouseLocation = document.getElementById('warehouseLocation').value;
+
+            if (!warehouseName || !warehouseLocation) {
+                alert('請填寫所有倉庫資訊');
+                return;
+            }
+
+            const tbody = document.querySelector('#warehouseTable tbody');
+            const newId = tbody.children.length + 1;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${newId}</td>
+                <td>${warehouseName}</td>
+                <td>${warehouseLocation}</td>
+                <td>
+                    <button class="btn-purple" onclick="editWarehouse('${newId}')">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
+                    <button class="btn-purple" onclick="deleteWarehouse('${newId}')">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(row);
+
+            document.getElementById('warehouseName').value = '';
+            document.getElementById('warehouseLocation').value = '';
+        }
+
+        function editWarehouse(warehouseId) {
+            const newName = prompt('請輸入新的倉庫名稱:');
+            const newLocation = prompt('請輸入新的倉庫位置:');
+
+            const rows = document.querySelectorAll('#warehouseTable tbody tr');
+            rows.forEach(row => {
+                if (row.cells[0].textContent === warehouseId) {
+                    row.cells[1].textContent = newName;
+                    row.cells[2].textContent = newLocation;
+                    alert('編輯成功');
+                }
+            });
+        }
+
+        function deleteWarehouse(warehouseId) {
+            const rows = document.querySelectorAll('#warehouseTable tbody tr');
+            rows.forEach(row => {
+                if (row.cells[0].textContent === warehouseId) {
+                    row.remove();
+                    alert('刪除成功');
+                }
+            });
+        }
+
+        function renderWarehouseList() {
+            const warehouseList = [
+                { id: '1', name: '倉庫1', location: '位置1' },
+                { id: '2', name: '倉庫2', location: '位置2' },
+            ];
+
+            const tbody = document.querySelector('#warehouseTable tbody');
+            tbody.innerHTML = '';
+
+            warehouseList.forEach(warehouse => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${warehouse.id}</td>
+                    <td>${warehouse.name}</td>
+                    <td>${warehouse.location}</td>
+                    <td>
+                        <button class="btn-purple" onclick="editWarehouse('${warehouse.id}')">
+                            <i class="fa-regular fa-pen-to-square"></i>  
+                        </button>
+                        
+                        <button class="btn-purple" onclick="deleteWarehouse('${warehouse.id}')">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        renderWarehouseList();
+    </script>
+</body>
+</html>

@@ -143,13 +143,4 @@ public class Manager {
         
         return jso;
     }
-
-    /**
-     * 設定管理員編號
-     */
-    public void setOrderProductId(JSONArray data) {
-        for(int i=0 ; i < this.list.size() ; i++) {
-            this.list.get(i).setID((int) data.getLong(i));
-        }
-    }
 }
