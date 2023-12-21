@@ -8,7 +8,7 @@
       src="https://kit.fontawesome.com/9b680ef726.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="search.css" />
+    <link rel="stylesheet" href="statics/css/search.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
@@ -118,7 +118,7 @@
   <body>
     <div class="segmented-control">
       <a
-        href="#_"
+        href="home.html"
         class="home-button rounded-md px-2 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-indigo-600 text-indigo-600 focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 focus:ring-opacity-50 hover:bg-indigo-600 hover:text-white"
         style="position: absolute; top: 0; right: 0; z-index: 1"
       >
@@ -156,9 +156,40 @@
 
     <script>
       function showReport() {
-        // Logic to generate and display the sales and inventory report
-        // You can use the entered values from #productInfo and #warehouseInfo
-        // and update the display dynamically.
+        // 取得輸入的產品編號/名稱和倉庫編號/名稱
+        const productInfo = $("#productInfo").val();
+        const warehouseInfo = $("#warehouseInfo").val();
+
+        // 使用 AJAX 向後端發送請求
+        $.ajax({
+          type: "GET",
+          url: "/api/sales-and-inventory-report", // 替換為實際的後端 API 路徑
+          data: { productInfo, warehouseInfo },
+          dataType: "json",
+          success: function (response) {
+            const tbody = $("#reportTable tbody");
+            tbody.empty(); // 清空表格內容
+
+            // 將報告資料填充到表格中
+            response.forEach((item) => {
+              const row = `
+                <tr>
+                  <td>${item.productName}</td>
+                  <td>${item.warehouseName}</td>
+                  <td>${item.salesQuantity}</td>
+                  <td>${item.inventoryQuantity}</td>
+                </tr>
+              `;
+              tbody.append(row);
+            });
+
+            // 顯示報告表格
+            $("#reportTable").show();
+          },
+          error: function () {
+            alert("無法連線到伺服器");
+          },
+        });
       }
     </script>
   </body>
