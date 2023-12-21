@@ -1,128 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>倉儲管理系統</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>主頁面</title>
     <style>
-        .dropdownmenu ul, .dropdownmenu li {
-            margin: 0;
-            padding: 0;
-        }
+      .dropdownmenu ul,
+      .dropdownmenu li {
+        margin: 0;
+        padding: 0;
+      }
 
-        header {
-            background-color: orange;
-            color: white;
-            text-align: center;
-            padding: 10px;
-        }
+      header {
+        background-color: orange;
+        color: white;
+        text-align: center;
+        padding: 10px;
+      }
 
-        .dropdownmenu ul {
-            background: #30A6E6; /* 调整为蓝色 */
-            list-style: none;
-            width: 100%;
-        }
+      .dropdownmenu ul {
+        background: #30a6e6; /* 调整为蓝色 */
+        list-style: none;
+        width: 100%;
 
-        .dropdownmenu li {
-            float: left;
-            position: relative;
-            width: auto;
-        }
+        max-width: 700px; /* 例如，设置最大宽度为 600px */
+        margin: auto;
+        display: flex;
+        justify-content: center; /* 居中子元素 */
+      }
 
-        .dropdownmenu a {
-            background: #30A6E6; /* 调整为蓝色 */
-            color: #FFFFFF;
-            display: block;
-            font: bold 12px/20px sans-serif;
-            padding: 10px 25px;
-            text-align: center;
-            text-decoration: none;
-            -webkit-transition: all .25s ease;
-            -moz-transition: all .25s ease;
-            -ms-transition: all .25s ease;
-            -o-transition: all .25s ease;
-            transition: all .25s ease;
-        }
+      .dropdownmenu li {
+        display: flex; /* 使用 flex 布局 */
+        position: relative;
+        width: auto;
 
-        .dropdownmenu li:hover a {
-            background: #000000;
-        }
+        flex-grow: 1; /* 允许元素成长填充空间 */
+        flex-shrink: 0; /* 防止元素在空间不足时收缩 */
+      }
 
-        #submenu {
-            left: 0;
-            opacity: 0;
-            position: absolute;
-            top: 35px;
-            visibility: hidden;
-            z-index: 1;
-        }
+      .dropdownmenu a {
+        background: #30a6e6; /* 调整为蓝色 */
+        color: #ffffff;
+        display: block;
+        font: bold 20px/40px sans-serif;
+        padding: 10px 25px;
+        text-align: center;
+        text-decoration: none;
+        -webkit-transition: all 0.25s ease;
+        -moz-transition: all 0.25s ease;
+        -ms-transition: all 0.25s ease;
+        -o-transition: all 0.25s ease;
+        transition: all 0.25s ease;
+      }
 
-        li:hover ul#submenu {
-            opacity: 1;
-            top: 40px;
-            visibility: visible;
-        }
+      .dropdownmenu li:hover a {
+        background: #000000;
+      }
 
-        #submenu li {
-            float: none;
-            width: 100%;
-        }
+      #submenu {
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        top: 35px;
+        visibility: hidden;
+        z-index: 1;
+      }
 
-        #submenu a:hover {
-            background: #DF4B05;
-        }
+      li:hover ul#submenu {
+        opacity: 1;
+        top: 40px;
+        visibility: visible;
+      }
 
-        #submenu a {
-            background-color: #30A6E6; /* 调整为蓝色 */
-        }
+      #submenu li {
+        float: none;
+        width: 100%;
+      }
 
-        nav {
-            background-color: #30A6E6;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-        }
-		img {
-            max-width: 100%;
-            max-height: 100%;
-            transition: transform 0.3s ease-in-out; /* 添加过渡效果 */
-        }
+      #submenu a:hover {
+        background: #df4b05;
+      }
+
+      #submenu a {
+        background-color: #30a6e6; /* 调整为蓝色 */
+      }
+
+      nav {
+        background-color: #30a6e6;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+      .image-container {
+        width: 100%;
+        height: calc(100vh - 100vh);
+      }
+      .image-container img {
+        width: 100%;
+        height: auto;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>倉儲管理系統</h1>
+      <h1>倉儲管理系統</h1>
     </header>
     <nav class="dropdownmenu">
-        <ul>
-            <li><a onclick="loadWarehousePage()">倉儲管理系統</a></li>
-            <li><a onclick="loadgoods()">產品管理系統</a></li>
-            <li><a onclick="tracegoods()">庫存追蹤</a>
-                <ul id="submenu">
-                    <li><a href="http://www.jochaho.com/wordpress/difference-between-svg-vs-canvas/">你好</a></li>
-                    <li><a href="http://www.jochaho.com/wordpress/new-features-in-html5/">媽的</a></li>
-                    <li><a href="http://www.jochaho.com/wordpress/creating-links-to-sections-within-a-webpage/">hi</a></li>
-                </ul>
-            </li>
-            <li><a onclick="loadgoods()">產品管理系統</a></li>
-            <li><a onclick="loadgoods()">產品管理系統</a></li>
-            <li><a onclick="loadgoods()">產品管理系統</a></li>
-            <li><a onclick="loadgoods()">產品管理系統</a></li>
-            <li><a href="http://www.jochaho.com/wordpress/creating-links-to-sections-within-a-webpage/">聯絡我們</a></li>
-        </ul>
+      <ul>
+        <li><a onclick="loadWarehousePage()">倉庫管理</a></li>
+        <li><a onclick="loadgoods()">產品管理</a></li>
+        <li><a onclick="tracegoods()">庫存追蹤</a></li>
+        <li><a onclick="loadorder()">訂單管理</a></li>
+        <li><a onclick="loadsupplier()">供應商管理</a></li>
+        <li><a onclick="loadmanager()">管理員管理</a></li>
+        <li><a onclick="loadreport()">銷售與庫存報告</a></li>
+      </ul>
     </nav>
-	<img src="IMG_1234.jpg" alt="圖片" width="1000" height="600">
+    <div class="image-container">
+      <img src="statics/img/home.jpg" alt="圖片" />
+    </div>
+
     <script>
-        function loadWarehousePage() {
-            // 使用 JavaScript 將兩個介面切換
-            window.location.href = 'warhouse.html';
-        }
-        function loadgoods(){
-            window.location.href = 'goods.html';
-        }
-        function tracegoods(){
-            window.location.href = 'trace.html'
-        } 
+      function loadWarehousePage() {
+        // 使用 JavaScript 將兩個介面切換
+        window.location.href = "warehouse.html";
+      }
+      function loadgoods() {
+        window.location.href = "product.html";
+      }
+      function tracegoods() {
+        window.location.href = "inventory_tracking.html";
+      }
+      function loadorder() {
+        window.location.href = "order.html";
+      }
+      function loadsupplier() {
+        window.location.href = "supplier.html";
+      }
+      function loadmanager() {
+        window.location.href = "manager.html";
+      }
+      function loadreport() {
+        window.location.href = "sellorstorage.html";
+      }
     </script>
-</body>
+  </body>
 </html>
