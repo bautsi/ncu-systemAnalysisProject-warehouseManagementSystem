@@ -16,7 +16,8 @@ public class OrderController extends HttpServlet {
     private OrderHelper oh = OrderHelper.getHelper();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         JsonReader jsr = new JsonReader(request);
         String action = jsr.getParameter("action");
 
@@ -32,7 +33,8 @@ public class OrderController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         JsonReader jsr = new JsonReader(request);
         JSONObject jso = jsr.getObject();
         String action = jso.optString("action");
@@ -42,18 +44,23 @@ public class OrderController extends HttpServlet {
             int managerId = jso.getInt("manager_id");
             String productName = jso.getString("product_name");
             int quantity = jso.getInt("quantity");
-            
+
             JSONObject result = oh.addOrder(managerId, productName, quantity);
             resp.put("status", "200");
             resp.put("message", "訂單新增成功");
             resp.put("response", result);
         } else if ("packOrder".equals(action)) {
             int orderId = jso.getInt("order_id");
-            
+
             JSONObject result = oh.packOrder(orderId);
             resp.put("status", "200");
             resp.put("message", "訂單打包成功");
             resp.put("response", result);
+        } else if ("generateSalesReport".equals(action)) {
+            JSONObject report = oh.generateSalesReport();
+            resp.put("status", "200");
+            resp.put("message", "销售报告生成成功");
+            resp.put("response", report);
         }
 
         jsr.response(resp, response);

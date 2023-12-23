@@ -15,21 +15,24 @@ public class ProductController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ProductHelper ph = ProductHelper.getHelper();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         JsonReader jsr = new JsonReader(request);
         String action = jsr.getParameter("action");
 
         JSONObject resp = new JSONObject();
         if ("getAll".equals(action)) {
             resp = ph.getAllProducts();
-        } else {
-            // 其他 GET 請求的處理
+        } else if ("getInfo".equals(action)) {
+            String productName = jsr.getParameter("product_name");
+            resp = ph.getProductInfo(productName);
         }
 
         jsr.response(resp, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         JsonReader jsr = new JsonReader(request);
         JSONObject jso = jsr.getObject();
         String action = jso.optString("action");
