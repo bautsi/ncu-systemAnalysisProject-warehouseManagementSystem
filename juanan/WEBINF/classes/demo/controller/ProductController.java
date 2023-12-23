@@ -26,6 +26,9 @@ public class ProductController extends HttpServlet {
         } else if ("getInfo".equals(action)) {
             String productName = jsr.getParameter("product_name");
             resp = ph.getProductInfo(productName);
+        } else if ("viewTotalQuantity".equals(action)) { // 新增的处理逻辑
+            String productName = jsr.getParameter("product_name");
+            resp = ph.viewTotalProductQuantity(productName);
         }
 
         jsr.response(resp, response);

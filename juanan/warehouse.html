@@ -179,46 +179,102 @@
     </table>
 
     <script>
+      // 獲取所有倉庫
+      function getAllWarehouses() {
+        fetch("api/warehouse.do?action=getAll")
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "200") {
+              populateTable(data.response);
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch((error) => console.error("錯誤:", error));
+      }
+
+      // 填充表格
+      function populateTable(warehouses) {
+        const tbody = document.querySelector("#warehouseTable tbody");
+        tbody.innerHTML = ""; // 清空表格
+
+        warehouses.forEach((warehouse, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${warehouse.warhouse_name}</td>
+            <td>${warehouse.warhouse_location}</td>
+            <td>
+              <button class="btn-purple" onclick="editWarehouse('${
+                warehouse.warhouse_id
+              }')">
+                <i class="fa-regular fa-pen-to-square"></i>  
+              </button>
+              
+              <button class="btn-purple" onclick="deleteWarehouse('${
+                warehouse.warhouse_id
+              }')">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      // 添加倉庫
       function addWarehouse() {
         const warehouseName = document.getElementById("warehouseName").value;
         const warehouseLocation =
           document.getElementById("warehouseLocation").value;
+        const managerId = 1; // 假設的 managerId，您可能需要根據實際情況調整
 
         if (!warehouseName || !warehouseLocation) {
-          alert("請填寫所有倉庫資訊");
+          alert("請填寫所有倉庫信息");
           return;
         }
 
-        const tbody = document.querySelector("#warehouseTable tbody");
-        const newId = tbody.children.length + 1;
-
-        const row = document.createElement("tr");
-        row.innerHTML = `
-                <td>${newId}</td>
-                <td>${warehouseName}</td>
-                <td>${warehouseLocation}</td>
-                <td>
-                    <button class="btn-purple" onclick="editWarehouse('${newId}')">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                    </button>
-                    <button class="btn-purple" onclick="deleteWarehouse('${newId}')">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                </td>
-            `;
-        tbody.appendChild(row);
-
-        document.getElementById("warehouseName").value = "";
-        document.getElementById("warehouseLocation").value = "";
-
-        alert("新增成功");
+        fetch("api/warehouse.do", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "add",
+            warhouse_name: warehouseName,
+            warhouse_location: warehouseLocation,
+            manager_id: managerId,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+            getAllWarehouses(); // 重新獲取並顯示所有倉庫
+          })
+          .catch((error) => console.error("錯誤:", error));
       }
 
+      // 刪除倉庫
+      function deleteWarehouse(warehouseId) {
+        fetch("api/warehouse.do", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "delete",
+            warhouse_id: warehouseId,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+            getAllWarehouses(); // 重新獲取並顯示所有倉庫
+          })
+          .catch((error) => console.error("錯誤:", error));
+      }
+
+      // 更新倉庫
       function editWarehouse(warehouseId) {
         const rows = document.querySelectorAll("#warehouseTable tbody tr");
         rows.forEach((row) => {
           if (row.cells[0].textContent === warehouseId) {
-            // 將單元格轉換為輸入欄位
             const nameCell = row.cells[1];
             const locationCell = row.cells[2];
 
@@ -228,10 +284,9 @@
             nameCell.innerHTML = `<input type='text' value='${currentName}' />`;
             locationCell.innerHTML = `<input type='text' value='${currentLocation}' />`;
 
-            // 將編輯按鈕轉換為保存按鈕
             const editButton = row.cells[3].querySelector("button");
-            editButton.innerHTML = `<i class="fa-solid fa-check"></i>`; // 更改圖標
-            editButton.onclick = () => saveWarehouse(warehouseId); // 更改點擊事件處理函數
+            editButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
+            editButton.onclick = () => saveWarehouse(warehouseId);
           }
         });
       }
@@ -243,62 +298,27 @@
             const nameInput = row.cells[1].querySelector("input");
             const locationInput = row.cells[2].querySelector("input");
 
-            row.cells[1].textContent = nameInput.value;
-            row.cells[2].textContent = locationInput.value;
-
-            // 將保存按鈕轉換回編輯按鈕
-            const saveButton = row.cells[3].querySelector("button");
-            saveButton.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>`;
-            saveButton.onclick = () => saveWarehouse(warehouseId);
-
-            alert("編輯成功");
-            const editButton = row.cells[3].querySelector("button");
-            editButton.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>`;
-            editButton.onclick = () => editWarehouse(warehouseId);
+            fetch("api/warehouse.do", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                action: "update",
+                warhouse_id: warehouseId,
+                warhouse_name: nameInput.value,
+                warhouse_location: locationInput.value,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                alert(data.message);
+                getAllWarehouses(); // 重新獲取並顯示所有倉庫
+              })
+              .catch((error) => console.error("錯誤:", error));
           }
         });
       }
 
-      function deleteWarehouse(warehouseId) {
-        const rows = document.querySelectorAll("#warehouseTable tbody tr");
-        rows.forEach((row) => {
-          if (row.cells[0].textContent === warehouseId) {
-            row.remove();
-            alert("刪除成功");
-          }
-        });
-      }
-
-      function renderWarehouseList() {
-        const warehouseList = [
-          { id: "1", name: "倉庫1", location: "位置1" },
-          { id: "2", name: "倉庫2", location: "位置2" },
-        ];
-
-        const tbody = document.querySelector("#warehouseTable tbody");
-        tbody.innerHTML = "";
-
-        warehouseList.forEach((warehouse) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-                    <td>${warehouse.id}</td>
-                    <td>${warehouse.name}</td>
-                    <td>${warehouse.location}</td>
-                    <td>
-                        <button class="btn-purple" onclick="editWarehouse('${warehouse.id}')">
-                            <i class="fa-regular fa-pen-to-square"></i>  
-                        </button>
-                        
-                        <button class="btn-purple" onclick="deleteWarehouse('${warehouse.id}')">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </button>
-                    </td>
-                `;
-          tbody.appendChild(row);
-        });
-      }
-
-      renderWarehouseList();
+      document.addEventListener("DOMContentLoaded", getAllWarehouses); // 頁面加載時調用
     </script>
   </body>
 </html>

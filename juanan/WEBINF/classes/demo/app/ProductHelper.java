@@ -65,30 +65,6 @@ public class ProductHelper {
         return result;
     }
 
-    // 轉移產品
-    /*public JSONObject transferProduct(String productName, int sourceWarehouseId, int destWarehouseId, int quantity) {
-        JSONObject result = new JSONObject();
-        try {
-            conn = DBMgr.getConnection();
-            cstmt = conn.prepareCall("{CALL sp_transfer_product(?, ?, ?, ?)}");
-            cstmt.setString(1, productName);
-            cstmt.setInt(2, sourceWarehouseId);
-            cstmt.setInt(3, destWarehouseId);
-            cstmt.setInt(4, quantity);
-
-            ResultSet rs = cstmt.executeQuery();
-            if (rs.next()) {
-                result.put("result", rs.getString("result"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            result.put("error", e.getMessage());
-        } finally {
-            DBMgr.close(cstmt, conn);
-        }
-        return result;
-    }*/
-
     // 更新產品
     public JSONObject updateProduct(int productId, String productName, int supplierId, int warehouseId, int quantity,
             int price) {
@@ -109,6 +85,33 @@ public class ProductHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            result.put("error", e.getMessage());
+        } finally {
+            DBMgr.close(cstmt, conn);
+        }
+        return result;
+    }
+
+    public JSONObject viewTotalProductQuantity(String productName) {
+        JSONObject result = new JSONObject();
+        try {
+            conn = DBMgr.getConnection();
+            cstmt = conn.prepareCall("{CALL sp_view_total_product_quantity(?)}");
+            cstmt.setString(1, productName);
+
+            ResultSet rs = cstmt.executeQuery();
+            if (rs.next()) {
+                result.put("status", "200");
+                result.put("message", "Product quantity retrieved successfully");
+                result.put("product_name", rs.getString("product_name_result"));
+                result.put("total_quantity", rs.getInt("total_quantity_result"));
+            } else {
+                result.put("status", "404");
+                result.put("message", "Product not found");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result.put("status", "500");
             result.put("error", e.getMessage());
         } finally {
             DBMgr.close(cstmt, conn);

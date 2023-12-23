@@ -219,7 +219,7 @@
 
           $.ajax({
             method: "POST",
-            url: "/api/manager.do", // 替换为您的 ManagerController 接口 URL
+            url: "api/manager.do", // 替换为您的 ManagerController 接口 URL
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(data), // 发送 JSON 格式的数据
@@ -229,11 +229,11 @@
               if (msg.status === "200") {
                 window.location.href = "manager.html"; // 登录成功后的跳转
               } else {
-                alert("登录失败: " + msg.message); // 显示错误消息
+                alert(msg.message); // 显示错误消息
               }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-              console.error("登录失败:", textStatus, errorThrown);
+              console.error("登入失敗:", textStatus, errorThrown);
             });
         });
       });

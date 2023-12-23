@@ -15,7 +15,8 @@ public class WarehouseController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private WarehouseHelper wh = WarehouseHelper.getHelper();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         JsonReader jsr = new JsonReader(request);
         String action = jsr.getParameter("action");
 
@@ -29,7 +30,8 @@ public class WarehouseController extends HttpServlet {
         jsr.response(resp, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         JsonReader jsr = new JsonReader(request);
         JSONObject jso = jsr.getObject();
         String action = jso.optString("action");

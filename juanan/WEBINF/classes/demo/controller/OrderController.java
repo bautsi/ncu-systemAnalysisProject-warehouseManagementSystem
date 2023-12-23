@@ -43,9 +43,11 @@ public class OrderController extends HttpServlet {
         if ("addOrder".equals(action)) {
             int managerId = jso.getInt("manager_id");
             String productName = jso.getString("product_name");
+            String productLocation = jso.getString("product_location"); // 新增的参数
             int quantity = jso.getInt("quantity");
 
-            JSONObject result = oh.addOrder(managerId, productName, quantity);
+            // 确保传递所有必要的参数给 addOrder 方法
+            JSONObject result = oh.addOrder(managerId, productName, productLocation, quantity);
             resp.put("status", "200");
             resp.put("message", "訂單新增成功");
             resp.put("response", result);
@@ -61,6 +63,31 @@ public class OrderController extends HttpServlet {
             resp.put("status", "200");
             resp.put("message", "销售报告生成成功");
             resp.put("response", report);
+        } else if ("deleteOrder".equals(action)) {
+            int orderId = jso.getInt("order_id");
+
+            JSONObject result = oh.deleteOrder(orderId);
+            resp.put("status", "200");
+            resp.put("message", "訂單刪除成功");
+            resp.put("response", result);
+        } else if ("comparePackedOrders".equals(action)) {
+            JSONObject result = oh.comparePackedOrders();
+            resp.put("status", "200");
+            resp.put("message", "最大銷售總量對比成功");
+            resp.put("response", result);
+        } else if ("compareMaxSalesOrder".equals(action)) {
+            JSONObject result = oh.compareMaxSalesOrder();
+            resp.put("status", "200");
+            resp.put("message", "最大銷售總額對比成功");
+            resp.put("response", result);
+        } else if ("updateOrder".equals(action)) {
+            int orderId = jso.getInt("order_id");
+            int newQuantity = jso.getInt("new_quantity");
+
+            JSONObject result = oh.updateOrder(orderId, newQuantity);
+            resp.put("status", "200");
+            resp.put("message", "訂單更新成功");
+            resp.put("response", result);
         }
 
         jsr.response(resp, response);
