@@ -5,15 +5,17 @@ import org.json.*;
 import juanan.WEBINF.classes.demo.util.DBMgr;
 
 public class ProductHelper {
-    
+
     private static ProductHelper ph;
     private Connection conn = null;
     private CallableStatement cstmt = null;
 
-    private ProductHelper() {}
+    private ProductHelper() {
+    }
 
     public static ProductHelper getHelper() {
-        if(ph == null) ph = new ProductHelper();
+        if (ph == null)
+            ph = new ProductHelper();
         return ph;
     }
 
@@ -22,7 +24,7 @@ public class ProductHelper {
         JSONObject result = new JSONObject();
         try {
             conn = DBMgr.getConnection();
-            cstmt = conn.prepareCall("{CALL sp_addproduct(?, ?, ?, ?, ?)}");
+            cstmt = conn.prepareCall("{CALL sp_addproduct1(?, ?, ?, ?, ?)}");
             cstmt.setString(1, productName);
             cstmt.setInt(2, supplierId);
             cstmt.setInt(3, warehouseId);
@@ -64,7 +66,7 @@ public class ProductHelper {
     }
 
     // 轉移產品
-    public JSONObject transferProduct(String productName, int sourceWarehouseId, int destWarehouseId, int quantity) {
+    /*public JSONObject transferProduct(String productName, int sourceWarehouseId, int destWarehouseId, int quantity) {
         JSONObject result = new JSONObject();
         try {
             conn = DBMgr.getConnection();
@@ -85,10 +87,11 @@ public class ProductHelper {
             DBMgr.close(cstmt, conn);
         }
         return result;
-    }
+    }*/
 
     // 更新產品
-    public JSONObject updateProduct(int productId, String productName, int supplierId, int warehouseId, int quantity, int price) {
+    public JSONObject updateProduct(int productId, String productName, int supplierId, int warehouseId, int quantity,
+            int price) {
         JSONObject result = new JSONObject();
         try {
             conn = DBMgr.getConnection();
@@ -121,7 +124,7 @@ public class ProductHelper {
             conn = DBMgr.getConnection();
             String sql = "SELECT * FROM product";
             pres = conn.prepareStatement(sql);
-    
+
             ResultSet rs = pres.executeQuery();
             while (rs.next()) {
                 JSONObject product = new JSONObject();
@@ -138,12 +141,40 @@ public class ProductHelper {
         } finally {
             DBMgr.close(pres, conn);
         }
-    
+
         JSONObject result = new JSONObject();
         result.put("status", "200");
         result.put("message", "所有產品資料取得成功");
         result.put("response", products);
         return result;
     }
-    
+
+    // 產品名稱庫存查詢
+    public JSONObject getProductInfo(String productName) {
+        JSONObject result = new JSONObject();
+        CallableStatement cstmt = null;
+        try {
+            conn = DBMgr.getConnection();
+            cstmt = conn.prepareCall("{CALL sp_product_info(?)}");
+            cstmt.setString(1, productName);
+
+            ResultSet rs = cstmt.executeQuery();
+            if (rs.next()) {
+                String procedureResult = rs.getString("result");
+                result.put("status", "200");
+                result.put("message", "Product information retrieved successfully");
+                result.put("response", procedureResult);
+            } else {
+                result.put("status", "404");
+                result.put("message", "Product not found");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result.put("status", "500");
+            result.put("error", e.getMessage());
+        } finally {
+            DBMgr.close(cstmt, conn);
+        }
+        return result;
+    }
 }

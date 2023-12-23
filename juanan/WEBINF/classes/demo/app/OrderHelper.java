@@ -94,4 +94,36 @@ public class OrderHelper {
         }
         return orders;
     }
+
+    public JSONObject generateSalesReport() {
+        JSONObject result = new JSONObject();
+        JSONArray salesReport = new JSONArray();
+        Connection conn = null;
+        CallableStatement cstmt = null;
+        try {
+            conn = DBMgr.getConnection();
+            cstmt = conn.prepareCall("{CALL sp_generate_sales_report()}");
+    
+            ResultSet rs = cstmt.executeQuery();
+            while (rs.next()) {
+                JSONObject reportItem = new JSONObject();
+                reportItem.put("product_name", rs.getString("product_name"));
+                reportItem.put("total_quantity", rs.getInt("total_quantity"));
+                reportItem.put("unit_price", rs.getDouble("unit_price"));
+                reportItem.put("total_sales", rs.getDouble("total_sales"));
+                salesReport.put(reportItem);
+            }
+            result.put("status", "200");
+            result.put("message", "Sales report generated successfully");
+            result.put("response", salesReport);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result.put("status", "500");
+            result.put("error", e.getMessage());
+        } finally {
+            DBMgr.close(cstmt, conn);
+        }
+        return result;
+    }
+    
 }
