@@ -5,15 +5,17 @@ import org.json.*;
 import juanan.WEBINF.classes.demo.util.DBMgr;
 
 public class WarehouseHelper {
-    
+
     private static WarehouseHelper wh;
     private Connection conn = null;
     private CallableStatement cstmt = null;
 
-    private WarehouseHelper() {}
+    private WarehouseHelper() {
+    }
 
     public static WarehouseHelper getHelper() {
-        if(wh == null) wh = new WarehouseHelper();
+        if (wh == null)
+            wh = new WarehouseHelper();
         return wh;
     }
 
@@ -27,9 +29,11 @@ public class WarehouseHelper {
             cstmt.setString(2, warehouseLocation);
             cstmt.setInt(3, managerId);
 
-            ResultSet rs = cstmt.executeQuery();
-            if (rs.next()) {
+            int affectedRows = cstmt.executeUpdate(); // 使用 executeUpdate 而不是 executeQuery
+            if (affectedRows > 0) {
                 result.put("message", "Warehouse added successfully.");
+            } else {
+                result.put("message", "No warehouse was added.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
