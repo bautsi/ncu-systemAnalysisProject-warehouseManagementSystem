@@ -159,7 +159,7 @@
         </div>
 
         <div class="flex items-center">
-          <label for="warehouseLocation" class="form__label">倉庫編號:</label>
+          <label for="warehouseLocation" class="form__label">倉庫地址:</label>
           <input
             type="text"
             id="warehouseLocation"
@@ -245,11 +245,12 @@
     </table>
 
     <script>
-      function showAddProductForm() {
+      function addProduct() {
+        const productId = document.getElementById("productId").value;
         const productName = document.getElementById("productName").value;
         const supplierId = document.getElementById("supplierId").value;
-        const warehouseLocation =
-          document.getElementById("warehouseLocation").value;
+        const productLocation =
+          document.getElementById("productLocation").value;
         const productQuantity =
           document.getElementById("productQuantity").value;
         const productPrice = document.getElementById("productPrice").value;
@@ -257,7 +258,7 @@
         if (
           !productName ||
           !supplierId ||
-          !warehouseLocation ||
+          !productLocation ||
           !productQuantity ||
           !productPrice
         ) {
@@ -265,51 +266,38 @@
           return;
         }
 
-        const tbody = document.querySelector("#productTable tbody");
-        const newProductId = tbody.children.length + 1; // 新增這行代碼
-
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${newProductId}</td>
-          <td>${productName}</td>
-          <td>${supplierId}</td>
-          <td>${warehouseLocation}</td>
-          <td>${productQuantity}</td>
-          <td>${productPrice}</td>
-          <td>
-        <button class="btn-purple edit-button" onclick="editProduct('${newProductId}')">
-            <i class="fa-regular fa-pen-to-square"></i>
-        </button>
-        <button class="btn-purple delete-button" onclick="deleteProduct('${newProductId}')">
-            <i class="fa-regular fa-trash-can"></i>
-        </button>
-    </td>
-            `;
-        tbody.appendChild(row);
-
-        document.getElementById("productName").value = "";
-        document.getElementById("supplierId").value = "";
-        document.getElementById("warehouseLocation").value = "";
-        document.getElementById("productQuantity").value = "";
-        document.getElementById("productPrice").value = "";
-
-        alert("新增成功");
+        fetch("api/product.do", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "add",
+            product_id : productId,
+            product_name: productName,
+            supplier_id: supplierId,
+            prodcut_location: productLocation,
+            product_quantity: productQuantity,
+            product_price: productPrice,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+            getAllProducts(); // 重新獲取並顯示所有產品
+          })
+          .catch((error) => console.error("錯誤:", error));
       }
 
       function editProduct(productId) {
         const rows = document.querySelectorAll("#productTable tbody tr");
         rows.forEach((row) => {
           if (row.cells[0].textContent === productId.toString()) {
-            // 对每个可编辑的单元格进行操作
             for (let i = 1; i < row.cells.length - 1; i++) {
-              // 假设最后一个单元格是操作按钮
               const currentText = row.cells[i].textContent;
               row.cells[
                 i
               ].innerHTML = `<input type='text' value='${currentText}' />`;
             }
 
-            // 更新按钮的事件处理函数
             const editButton =
               row.cells[row.cells.length - 1].querySelector("button");
             editButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
@@ -322,30 +310,62 @@
         const rows = document.querySelectorAll("#productTable tbody tr");
         rows.forEach((row) => {
           if (row.cells[0].textContent === productId.toString()) {
-            for (let i = 1; i < row.cells.length - 1; i++) {
-              const input = row.cells[i].querySelector("input");
-              row.cells[i].textContent = input.value;
-            }
+            const productName = row.cells[1].querySelector("input").value;
+            const supplierId = parseInt(
+              row.cells[2].querySelector("input").value,
+              10
+            );
+            const warehouseId = parseInt(
+              row.cells[3].querySelector("input").value,
+              10
+            );
+            const quantity = parseInt(
+              row.cells[4].querySelector("input").value,
+              10
+            );
+            const price = parseInt(
+              row.cells[5].querySelector("input").value,
+              10
+            );
 
-            // 更新按钮的事件处理函数
-            const saveButton =
-              row.cells[row.cells.length - 1].querySelector("button");
-            saveButton.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>`;
-            saveButton.onclick = () => editProduct(productId);
-
-            alert("編輯成功");
+            fetch("api/product.do", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                action: "update",
+                product_id: productId,
+                product_name: productName,
+                supplier_id: supplierId,
+                warehouse_id: warehouseId,
+                quantity: quantity,
+                price: price,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                alert(data.message);
+                getAllProducts(); // 重新獲取並顯示所有產品
+              })
+              .catch((error) => console.error("錯誤:", error));
           }
         });
       }
 
       function deleteProduct(productId) {
-        const rows = document.querySelectorAll("#productTable tbody tr");
-        rows.forEach((row) => {
-          if (row.cells[0].textContent === productId) {
-            row.remove();
-            alert("刪除成功");
-          }
-        });
+        fetch("api/product.do", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "delete",
+            product_id: productId,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+            getAllProducts(); // 重新獲取並顯示所有產品
+          })
+          .catch((error) => console.error("錯誤:", error));
       }
     </script>
   </body>

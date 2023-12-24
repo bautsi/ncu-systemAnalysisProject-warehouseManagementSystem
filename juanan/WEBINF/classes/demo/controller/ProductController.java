@@ -43,32 +43,28 @@ public class ProductController extends HttpServlet {
         JSONObject resp = new JSONObject();
         switch (action) {
             case "add":
+                int productId = jso.getInt("product_id");
                 String productName = jso.getString("product_name");
                 int supplierId = jso.getInt("supplier_id");
-                int warehouseId = jso.getInt("warehouse_id");
-                int quantity = jso.getInt("quantity");
-                int price = jso.getInt("price");
-                resp = ph.addProduct(productName, supplierId, warehouseId, quantity, price);
+                int productLocation = jso.getInt("product_location");
+                int productQuantity = jso.getInt("product_quantity");
+                int productPrice = jso.getInt("product_price");
+                resp = ph.addProduct(productId, productName, supplierId, productLocation, productQuantity,
+                        productPrice);
                 break;
             case "delete":
-                int productId = jso.getInt("product_id");
+                productId = jso.getInt("product_id");
                 resp = ph.deleteProduct(productId);
-                break;
-            case "transfer":
-                productName = jso.getString("product_name");
-                int sourceWarehouseId = jso.getInt("source_warehouse_id");
-                int destWarehouseId = jso.getInt("destination_warehouse_id");
-                quantity = jso.getInt("quantity");
-                resp = ph.transferProduct(productName, sourceWarehouseId, destWarehouseId, quantity);
                 break;
             case "update":
                 productId = jso.getInt("product_id");
                 productName = jso.getString("product_name");
                 supplierId = jso.getInt("supplier_id");
-                warehouseId = jso.getInt("warehouse_id");
-                quantity = jso.getInt("quantity");
-                price = jso.getInt("price");
-                resp = ph.updateProduct(productId, productName, supplierId, warehouseId, quantity, price);
+                productLocation = jso.getInt("warehouse_id");
+                productQuantity = jso.getInt("quantity");
+                productPrice = jso.getInt("price");
+                resp = ph.updateProduct(productId, productName, supplierId, productLocation, productQuantity,
+                        productPrice);
                 break;
             default:
                 resp.put("status", "400");
