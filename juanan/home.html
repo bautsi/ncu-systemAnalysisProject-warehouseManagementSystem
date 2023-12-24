@@ -3,137 +3,130 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>主頁面</title>
+    <title>倉儲管理系統</title>
     <style>
-      .dropdownmenu ul,
-      .dropdownmenu li {
+      /******************************
+Flexbox Layout
+*******************************/
+
+      .header,
+      .nav {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+      }
+
+      .header {
+        justify-content: space-between;
+      }
+
+      .nav {
+        -webkit-flex: 1;
+        flex: 1;
+        -webkit-justify-content: space-around;
+        justify-content: space-around;
+      }
+
+      @media all and (min-width: 640px) {
+        .header,
+        .nav {
+          -webkit-flex-direction: row;
+          flex-direction: row;
+        }
+      }
+
+      @media all and (min-width: 1030px) {
+        .nav {
+          -webkit-flex: none;
+          flex: none;
+        }
+      }
+
+      /******************************
+Treehouse Styling
+*******************************/
+
+      body {
         margin: 0;
-        padding: 0;
+        font-family: Helvetica;
+        background: url("/juanan/statics/img/background.jpg") top center no-repeat;
+        background-size: cover;
       }
 
-      header {
-        background-color: orange;
-        color: white;
-        text-align: center;
-        padding: 10px;
+      .header {
+        padding: 20px 0;
+        margin: 0 auto;
       }
 
-      .dropdownmenu ul {
-        background: #30a6e6; /* 调整为蓝色 */
+      .logo {
+        background: transparent url("/juanan/statics/img/homeicon.jpg") center center no-repeat;
+        width: 195px;
+        height: 65px; /* 調整高度 */
+        background-size: contain;
+        text-indent: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        transform: scale(3); /* 放大三倍 */
+      }
+
+      .nav {
         list-style: none;
-        width: 100%;
-
-        max-width: 700px; /* 例如，设置最大宽度为 600px */
-        margin: auto;
-        display: flex;
-        justify-content: center; /* 居中子元素 */
       }
 
-      .dropdownmenu li {
-        display: flex; /* 使用 flex 布局 */
-        position: relative;
-        width: auto;
-
-        flex-grow: 1; /* 允许元素成长填充空间 */
-        flex-shrink: 0; /* 防止元素在空间不足时收缩 */
+      .nav li {
+        margin: 12px 0 12px 28px;
       }
-
-      .dropdownmenu a {
-        background: #30a6e6; /* 调整为蓝色 */
-        color: #ffffff;
-        display: block;
-        font: bold 20px/40px sans-serif;
-        padding: 10px 25px;
-        text-align: center;
+      .nav li a {
         text-decoration: none;
-        -webkit-transition: all 0.25s ease;
-        -moz-transition: all 0.25s ease;
-        -ms-transition: all 0.25s ease;
-        -o-transition: all 0.25s ease;
-        transition: all 0.25s ease;
+        color: #010101;
+        font-size: 16px; /* 調整字體大小 */
+        font-weight: bold; /* 加粗 */
+        text-transform: uppercase;
+        background: transparent; /* 新增這行，使背景透明 */
+        border-radius: 2px;
+        transition: background 200ms ease-in-out; /* 調整 transition 效果 */
+        padding: 8px 16px 7px;
       }
 
-      .dropdownmenu li:hover a {
-        background: #000000;
+      .nav li a:hover {
+        background: rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.7);
       }
 
-      #submenu {
-        left: 0;
-        opacity: 0;
-        position: absolute;
-        top: 35px;
-        visibility: hidden;
-        z-index: 1;
+      .nav li:last-child a {
+        background: transparent;
+        border-radius: 2px;
+        transition: 200ms ease-in-out;
+        padding: 8px 16px 7px;
       }
 
-      li:hover ul#submenu {
-        opacity: 1;
-        top: 40px;
-        visibility: visible;
+      .nav li:last-child a:hover {
+        background: rgba(255, 255, 255, 0.5);
+        color: #fff;
       }
 
-      #submenu li {
-        float: none;
-        width: 100%;
-      }
-
-      #submenu a:hover {
-        background: #df4b05;
-      }
-
-      #submenu a {
-        background-color: #30a6e6; /* 调整为蓝色 */
-      }
-
-      nav {
-        background-color: #30a6e6;
-        padding: 10px;
-        display: flex;
-        justify-content: center;
-        text-align: center;
-      }
-      img {
-        max-width: 100%;
-        height: auto;
-        object-fit: contain;
-      }
-      .image-container {
-        /*width: 100%;*/ /*home*/
-        /*height: calc(100vh - 100vh);*/ /*home*/
-        width: 100%; /* home1 */
-        height: 80vh; /* home1 */
-        overflow: hidden; /* home1 */
-      }
-      .image-container img {
-        /*width: 100%;//*home*/
-        /*height: auto;*/ /*home*/
-
-        width: 100%; /*home1*/
-        height: 100%; /* home1 */
-        display: block; /* home1 */
-        object-fit: fill; /* home1 */
+      @media all and (min-width: 1030px) {
+        .header {
+          width: 1030px;
+          min-width: 768px;
+        }
       }
     </style>
   </head>
   <body>
-    <header>
-      <h1>倉儲管理系統</h1>
-    </header>
-    <nav class="dropdownmenu">
-      <ul>
-        <li><a onclick="loadWarehousePage()">倉庫管理</a></li>
-        <li><a onclick="loadgoods()">產品管理</a></li>
+    <header class="header">
+      <h1 class="logo">Logo</h1>
+      <ul class="nav">
+        <li><a onclick="loadWarehousePage()">倉儲管理系統</a></li>
+        <li><a onclick="loadgoods()">產品管理系統</a></li>
         <li><a onclick="tracegoods()">庫存追蹤</a></li>
-        <li><a onclick="loadorder()">訂單管理</a></li>
-        <li><a onclick="loadsupplier()">供應商管理</a></li>
-        <li><a onclick="loadmanager()">管理員管理</a></li>
-        <li><a onclick="loadreport()">銷售與庫存報告</a></li>
+        <li><a onclick="loadgoods()">訂單處理</a></li>
+        <li><a onclick="loadgoods()">供應商管理</a></li>
+        <li><a onclick="loadgoods()">管理員管理</a></li>
+        <li><a onclick="loadreport()">銷售報告</a></li>
       </ul>
-    </nav>
-    <div class="image-container">
-      <img src="statics/img/home1.png" alt="圖片" />
-    </div>
-
+    </header>
     <script>
       function loadWarehousePage() {
         // 使用 JavaScript 將兩個介面切換
