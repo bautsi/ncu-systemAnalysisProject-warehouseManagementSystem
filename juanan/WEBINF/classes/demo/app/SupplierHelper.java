@@ -5,15 +5,17 @@ import org.json.*;
 import juanan.WEBINF.classes.demo.util.DBMgr;
 
 public class SupplierHelper {
-    
+
     private static SupplierHelper sh;
     private Connection conn = null;
     private CallableStatement cstmt = null;
 
-    private SupplierHelper() {}
+    private SupplierHelper() {
+    }
 
     public static SupplierHelper getHelper() {
-        if(sh == null) sh = new SupplierHelper();
+        if (sh == null)
+            sh = new SupplierHelper();
         return sh;
     }
 
@@ -46,9 +48,11 @@ public class SupplierHelper {
             cstmt = conn.prepareCall("{CALL sp_deletesupplier(?)}");
             cstmt.setInt(1, supplierId);
 
-            ResultSet rs = cstmt.executeQuery();
-            if (rs.next()) {
+            int affectedRows = cstmt.executeUpdate(); // 执行删除操作，返回受影响的行数
+            if (affectedRows > 0) {
                 result.put("message", "Supplier deleted successfully.");
+            } else {
+                result.put("message", "No supplier was deleted.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,9 +72,11 @@ public class SupplierHelper {
             cstmt.setInt(1, supplierId);
             cstmt.setString(2, supplierName);
 
-            ResultSet rs = cstmt.executeQuery();
-            if (rs.next()) {
+            int affectedRows = cstmt.executeUpdate(); // 使用 executeUpdate 获取受影响的行数
+            if (affectedRows > 0) {
                 result.put("message", "Supplier updated successfully.");
+            } else {
+                result.put("message", "No supplier was updated."); // 如果没有行受影响，返回相应消息
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,7 +105,7 @@ public class SupplierHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBMgr.close(conn);
+            DBMgr.close(cstmt, conn);
         }
 
         JSONObject result = new JSONObject();

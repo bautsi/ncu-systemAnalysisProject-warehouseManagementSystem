@@ -165,32 +165,7 @@
           <th>操作</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>果果堅果企業社</td>
-          <td>
-            <button class="btn-purple" onclick="editSupplier('1')">
-              <i class="fa-regular fa-pen-to-square"></i>
-            </button>
-            <button class="btn-purple" onclick="deleteSupplier('1')">
-              <i class="fa-regular fa-trash-can"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>英屬維京群島商太古可口可樂(股)公司台灣分公司</td>
-          <td>
-            <button class="btn-purple" onclick="editSupplier('2')">
-              <i class="fa-regular fa-pen-to-square"></i>
-            </button>
-            <button class="btn-purple" onclick="deleteSupplier('2')">
-              <i class="fa-regular fa-trash-can"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
+      <tbody></tbody>
     </table>
 
     <script>
@@ -202,72 +177,129 @@
           return;
         }
 
-        const tbody = document.querySelector("#supplierTable tbody");
-        const newId = tbody.children.length + 1;
-
-        const row = document.createElement("tr");
-        row.innerHTML = `
-                <td>${newId}</td>
-                <td>${supplierName}</td>
-                <td>
-                    <button class="btn-purple" onclick="editSupplier('${newId}')">
-                        <i class="fa-regular fa-pen-to-square"></i>  
-                    </button>
-                    <button class="btn-purple" onclick="deleteSupplier('${newId}')">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                </td>
-            `;
-        tbody.appendChild(row);
-
-        document.getElementById("supplierName").value = "";
-
-        alert("新增成功");
+        fetch("api/supplier.do", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "add", supplier_name: supplierName }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "200" || data.new_supplier_id) {
+              alert("新增成功");
+              getAllSuppliers(); // 只在添加操作成功后调用
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch((error) => console.error("錯誤:", error));
       }
 
       function editSupplier(supplierId) {
-        const rows = document.querySelectorAll("#supplierTable tbody tr");
-        rows.forEach((row) => {
-          if (row.cells[0].textContent === supplierId) {
-            // 將單元格轉換為輸入欄位
-            const nameCell = row.cells[1];
-            const currentName = nameCell.textContent;
-            nameCell.innerHTML = `<input type='text' value='${currentName}' />`;
+        const row = document.querySelector(
+          `#supplierTable tbody tr[data-id="${supplierId}"]`
+        );
+        if (!row) return;
 
-            // 將編輯按鈕轉換為保存按鈕
-            const editButton = row.cells[2].querySelector("button");
-            editButton.innerHTML = `<i class="fa-solid fa-check"></i>`; // 更改圖標
-            editButton.onclick = () => saveSupplier(supplierId); // 更改點擊事件處理函數
-          }
-        });
+        // 将单元格转换为输入字段
+        const nameCell = row.cells[1];
+        const currentName = nameCell.textContent;
+        nameCell.innerHTML = `<input type='text' value='${currentName}' />`;
+
+        // 将编辑按钮转换为保存按钮
+        const editButton = row.cells[2].querySelector("button");
+        editButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
+        editButton.onclick = () => saveSupplier(supplierId, row); // 传递 row 参数
       }
 
-      function saveSupplier(supplierId) {
-        const rows = document.querySelectorAll("#supplierTable tbody tr");
-        rows.forEach((row) => {
-          if (row.cells[0].textContent === supplierId) {
-            const nameInput = row.cells[1].querySelector("input");
-            row.cells[1].textContent = nameInput.value;
+      function saveSupplier(supplierId, row) {
+        const nameInput = row.querySelector("input").value;
 
-            // 將保存按鈕轉換回編輯按鈕
-            const saveButton = row.cells[2].querySelector("button");
-            saveButton.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>`;
-            saveButton.onclick = () => editSupplier(supplierId);
-
-            alert("編輯成功");
-          }
-        });
+        fetch("api/supplier.do", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "update",
+            supplier_id: supplierId,
+            supplier_name: nameInput,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.message === "Supplier updated successfully.") {
+              alert("编辑成功");
+              // 还原为文本和编辑按钮
+              row.cells[1].textContent = nameInput;
+              const editButton = row.cells[2].querySelector("button");
+              editButton.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>`;
+              editButton.onclick = () => editSupplier(supplierId); // 还原点击事件
+            } else {
+              alert("更新失败: " + data.message);
+            }
+          })
+          .catch((error) => {
+            console.error("错误:", error);
+            alert("发生错误: " + error);
+          });
       }
 
       function deleteSupplier(supplierId) {
-        const rows = document.querySelectorAll("#supplierTable tbody tr");
-        rows.forEach((row) => {
-          if (row.cells[0].textContent === supplierId) {
-            row.remove();
-            alert("刪除成功");
-          }
+        fetch("api/supplier.do", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "delete", supplier_id: supplierId }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              // 出现错误
+              alert("刪除失败: " + data.error);
+            } else {
+              // 操作成功
+              alert("刪除成功");
+              getAllSuppliers(); // 确保此处调用以刷新列表
+            }
+          })
+          .catch((error) => console.error("錯誤:", error));
+      }
+
+      function getAllSuppliers() {
+        fetch("api/supplier.do?action=getAll")
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "200") {
+              populateTable(data.response); // 使用返回的数据填充表格
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch((error) => console.error("錯誤:", error));
+      }
+
+      function populateTable(suppliers) {
+        const tbody = document.querySelector("#supplierTable tbody");
+        tbody.innerHTML = "";
+
+        suppliers.forEach((supplier) => {
+          const row = document.createElement("tr");
+          row.setAttribute("data-id", supplier.supplier_id);
+          row.innerHTML = `
+        <td>${supplier.supplier_id}</td>
+        <td>${supplier.supplier_name}</td>
+        <td>
+            <button class="btn-purple" onclick="editSupplier('${supplier.supplier_id}')">
+                <i class="fa-regular fa-pen-to-square"></i>
+            </button>
+            <button class="btn-purple" onclick="deleteSupplier('${supplier.supplier_id}')">
+                <i class="fa-regular fa-trash-can"></i>
+            </button>
+        </td>
+      `;
+          tbody.appendChild(row);
         });
       }
+
+      // 在文档加载完成时调用 getAllSuppliers()
+      document.addEventListener("DOMContentLoaded", getAllSuppliers);
     </script>
   </body>
 </html>
