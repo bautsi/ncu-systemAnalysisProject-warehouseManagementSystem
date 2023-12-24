@@ -75,9 +75,11 @@ public class WarehouseHelper {
             cstmt.setString(2, warehouseName);
             cstmt.setString(3, warehouseLocation);
 
-            ResultSet rs = cstmt.executeQuery();
-            if (rs.next()) {
+            int affectedRows = cstmt.executeUpdate(); // 使用 executeUpdate 而不是 executeQuery
+            if (affectedRows > 0) {
                 result.put("message", "Warehouse updated successfully.");
+            } else {
+                result.put("message", "No warehouse was updated.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
