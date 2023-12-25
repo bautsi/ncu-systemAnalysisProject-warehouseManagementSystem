@@ -149,8 +149,8 @@
       <div class="flex flex-wrap">
         <!-- 第一行: 產品名稱、供應商編號、倉庫地址 -->
         <div class="flex items-center">
-          <label for="productName" class="form__label">產品名稱:</label>
-          <input type="text" id="productName" class="form__input" required />
+          <label for="warehouseId" class="form__label">產品名稱:</label>
+          <input type="text" id="warehouseId" class="form__input" required />
         </div>
 
         <div class="flex items-center">
@@ -159,15 +159,10 @@
         </div>
 
         <div class="flex items-center">
-          <label for="warehouseLocation" class="form__label">倉庫地址:</label>
-          <input
-            type="text"
-            id="warehouseLocation"
-            class="form__input"
-            required
-          />
+          <label for="warehouseId" class="form__label">倉庫編號:</label>
+          <input type="text" id="warehouseId" class="form__input" required />
         </div>
-      </div>
+      
 
       <div class="flex flex-wrap mt-4">
         <!-- 第二行: 產品數量、產品價格 -->
@@ -291,11 +286,10 @@
       }
 
       function addProduct() {
-        const productId = document.getElementById("productId").value;
         const productName = document.getElementById("productName").value;
         const supplierId = document.getElementById("supplierId").value;
-        const productLocation =
-          document.getElementById("productLocation").value;
+        const warehouseId =
+          document.getElementById("warehouseId").value;
         const productQuantity =
           document.getElementById("productQuantity").value;
         const productPrice = document.getElementById("productPrice").value;
@@ -303,7 +297,7 @@
         if (
           !productName ||
           !supplierId ||
-          !productLocation ||
+          !warehouseId ||
           !productQuantity ||
           !productPrice
         ) {
@@ -316,10 +310,9 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             action: "add",
-            product_id: productId,
             product_name: productName,
             supplier_id: supplierId,
-            prodcut_location: productLocation,
+            warehouse_id: warehouseId,
             product_quantity: productQuantity,
             product_price: productPrice,
           }),

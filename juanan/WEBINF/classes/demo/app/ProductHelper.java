@@ -20,7 +20,7 @@ public class ProductHelper {
     }
 
     // 添加产品
-    public JSONObject addProduct(String productName, int supplierId, String productLocation, int productQuantity,
+    public JSONObject addProduct(String productName, int supplierId, int warehouseId, int productQuantity,
             int productPrice) {
         JSONObject result = new JSONObject();
         try {
@@ -28,7 +28,7 @@ public class ProductHelper {
             cstmt = conn.prepareCall("{CALL sp_addproduct(?, ?, ?, ?, ?)}");
             cstmt.setString(1, productName);
             cstmt.setInt(2, supplierId);
-            cstmt.setString(3, productLocation);
+            cstmt.setInt(3, warehouseId);
             cstmt.setInt(4, productQuantity);
             cstmt.setInt(5, productPrice);
 

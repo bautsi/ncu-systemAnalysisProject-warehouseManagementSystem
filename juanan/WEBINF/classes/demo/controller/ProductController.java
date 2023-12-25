@@ -41,10 +41,10 @@ public class ProductController extends HttpServlet {
             case "add":
                 String productName = jso.getString("product_name");
                 int supplierId = jso.getInt("supplier_id");
-                String productLocation = jso.getString("product_location");
+                int warehouseId = jso.getInt("warehouse_id");
                 int productQuantity = jso.getInt("product_quantity");
                 int productPrice = jso.getInt("product_price");
-                resp = ph.addProduct(productName, supplierId, productLocation, productQuantity, productPrice);
+                resp = ph.addProduct(productName, supplierId, warehouseId, productQuantity, productPrice);
                 break;
             case "delete":
                 int productId = jso.getInt("product_id");
@@ -54,7 +54,7 @@ public class ProductController extends HttpServlet {
                 productId = jso.getInt("product_id");
                 productName = jso.getString("product_name");
                 supplierId = jso.getInt("supplier_id");
-                productLocation = jso.getString("product_location");
+                String productLocation = jso.getString("product_location");
                 productQuantity = jso.getInt("product_quantity");
                 productPrice = jso.getInt("product_price");
                 resp = ph.updateProduct(productId, productName, supplierId, productLocation, productQuantity,
