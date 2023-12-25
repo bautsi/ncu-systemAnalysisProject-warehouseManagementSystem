@@ -19,24 +19,28 @@ public class ProductHelper {
         return ph;
     }
 
-    // 添加產品
-    public JSONObject addProduct(String productName, int supplierId, int warehouseId, int quantity, int price) {
+    // 添加产品
+    public JSONObject addProduct(String productName, int supplierId, String productLocation, int productQuantity,
+            int productPrice) {
         JSONObject result = new JSONObject();
         try {
             conn = DBMgr.getConnection();
-            cstmt = conn.prepareCall("{CALL sp_addproduct1(?, ?, ?, ?, ?)}");
+            cstmt = conn.prepareCall("{CALL sp_addproduct(?, ?, ?, ?, ?)}");
             cstmt.setString(1, productName);
             cstmt.setInt(2, supplierId);
-            cstmt.setInt(3, warehouseId);
-            cstmt.setInt(4, quantity);
-            cstmt.setInt(5, price);
+            cstmt.setString(3, productLocation);
+            cstmt.setInt(4, productQuantity);
+            cstmt.setInt(5, productPrice);
 
             ResultSet rs = cstmt.executeQuery();
             if (rs.next()) {
-                result.put("result", rs.getString("result"));
+                result.put("status", "200");
+                result.put("message", "Product added successfully");
+                result.put("response", rs.getString("result"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            result.put("status", "500");
             result.put("error", e.getMessage());
         } finally {
             DBMgr.close(cstmt, conn);
@@ -66,8 +70,8 @@ public class ProductHelper {
     }
 
     // 更新產品
-    public JSONObject updateProduct(int productId, String productName, int supplierId, int warehouseId, int quantity,
-            int price) {
+    public JSONObject updateProduct(int productId, String productName, int supplierId, String productLocation,
+            int productQuantity, int productPrice) {
         JSONObject result = new JSONObject();
         try {
             conn = DBMgr.getConnection();
@@ -75,16 +79,19 @@ public class ProductHelper {
             cstmt.setInt(1, productId);
             cstmt.setString(2, productName);
             cstmt.setInt(3, supplierId);
-            cstmt.setInt(4, warehouseId);
-            cstmt.setInt(5, quantity);
-            cstmt.setInt(6, price);
+            cstmt.setString(4, productLocation);
+            cstmt.setInt(5, productQuantity);
+            cstmt.setInt(6, productPrice);
 
             ResultSet rs = cstmt.executeQuery();
             if (rs.next()) {
-                result.put("result", rs.getString("result"));
+                result.put("status", "200");
+                result.put("message", "Product updated successfully");
+                result.put("response", rs.getString("result"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            result.put("status", "500");
             result.put("error", e.getMessage());
         } finally {
             DBMgr.close(cstmt, conn);

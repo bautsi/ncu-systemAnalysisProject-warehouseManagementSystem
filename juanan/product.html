@@ -187,7 +187,7 @@
         </div>
 
         <div>
-          <button class="btn-purple mt-4" onclick="showAddProductForm()">
+          <button class="btn-purple mt-4" onclick="addProduct()">
             <span><i class="fa-regular fa-square-plus"></i></span>
           </button>
         </div>
@@ -245,6 +245,51 @@
     </table>
 
     <script>
+      // 獲取所有倉庫
+      function getAllProducts() {
+        fetch("api/product.do?action=getAll")
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "200") {
+              populateTable(data.response);
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch((error) => console.error("錯誤:", error));
+      }
+
+      function populateTable(products) {
+        const tbody = document.querySelector("#productTable tbody");
+        tbody.innerHTML = ""; // 清空表格
+
+        products.forEach((product, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${product.product_name}</td>
+            <td>${product.supplier_id}</td>
+            <td>${product.product_location}</td>
+            <td>${product.product_quantity}</td>
+            <td>${product.product_price}</td>
+            <td>
+              <button class="btn-purple" onclick="editProduct('${
+                product.product_id
+              }')">
+                <i class="fa-regular fa-pen-to-square"></i>  
+              </button>
+        
+              <button class="btn-purple" onclick="deleteProduct('${
+                product.product_id
+              }')">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
       function addProduct() {
         const productId = document.getElementById("productId").value;
         const productName = document.getElementById("productName").value;
@@ -271,7 +316,7 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             action: "add",
-            product_id : productId,
+            product_id: productId,
             product_name: productName,
             supplier_id: supplierId,
             prodcut_location: productLocation,
@@ -291,13 +336,20 @@
         const rows = document.querySelectorAll("#productTable tbody tr");
         rows.forEach((row) => {
           if (row.cells[0].textContent === productId.toString()) {
-            for (let i = 1; i < row.cells.length - 1; i++) {
-              const currentText = row.cells[i].textContent;
-              row.cells[
-                i
-              ].innerHTML = `<input type='text' value='${currentText}' />`;
-            }
+            // 直接修改特定單元格
+            const nameCell = row.cells[1];
+            const supplierIdCell = row.cells[2];
+            const locationCell = row.cells[3];
+            const quantityCell = row.cells[4];
+            const priceCell = row.cells[5];
 
+            nameCell.innerHTML = `<input type='text' value='${nameCell.textContent}' />`;
+            supplierIdCell.innerHTML = `<input type='text' value='${supplierIdCell.textContent}' />`;
+            locationCell.innerHTML = `<input type='text' value='${locationCell.textContent}' />`;
+            quantityCell.innerHTML = `<input type='text' value='${quantityCell.textContent}' />`;
+            priceCell.innerHTML = `<input type='text' value='${priceCell.textContent}' />`;
+
+            // 更新編輯按鈕
             const editButton =
               row.cells[row.cells.length - 1].querySelector("button");
             editButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
@@ -315,15 +367,12 @@
               row.cells[2].querySelector("input").value,
               10
             );
-            const warehouseId = parseInt(
-              row.cells[3].querySelector("input").value,
-              10
-            );
-            const quantity = parseInt(
+            const productLocation = row.cells[3].querySelector("input").value;
+            const productQuantity = parseInt(
               row.cells[4].querySelector("input").value,
               10
             );
-            const price = parseInt(
+            const productPrice = parseInt(
               row.cells[5].querySelector("input").value,
               10
             );
@@ -336,17 +385,17 @@
                 product_id: productId,
                 product_name: productName,
                 supplier_id: supplierId,
-                warehouse_id: warehouseId,
-                quantity: quantity,
-                price: price,
+                product_location: productLocation,
+                product_quantity: productQuantity,
+                product_price: productPrice,
               }),
             })
               .then((response) => response.json())
               .then((data) => {
                 alert(data.message);
-                getAllProducts(); // 重新獲取並顯示所有產品
+                getAllProducts(); // 重新获取并显示所有产品
               })
-              .catch((error) => console.error("錯誤:", error));
+              .catch((error) => console.error("错误:", error));
           }
         });
       }
@@ -367,6 +416,8 @@
           })
           .catch((error) => console.error("錯誤:", error));
       }
+
+      document.addEventListener("DOMContentLoaded", getAllProducts); // 頁面加載時調用
     </script>
   </body>
 </html>

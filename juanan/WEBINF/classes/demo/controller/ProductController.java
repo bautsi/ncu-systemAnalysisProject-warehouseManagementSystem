@@ -23,12 +23,8 @@ public class ProductController extends HttpServlet {
         JSONObject resp = new JSONObject();
         if ("getAll".equals(action)) {
             resp = ph.getAllProducts();
-        } else if ("getInfo".equals(action)) {
-            String productName = jsr.getParameter("product_name");
-            resp = ph.getProductInfo(productName);
-        } else if ("viewTotalQuantity".equals(action)) { // 新增的处理逻辑
-            String productName = jsr.getParameter("product_name");
-            resp = ph.viewTotalProductQuantity(productName);
+        } else {
+            // 其他 GET 请求的处理逻辑
         }
 
         jsr.response(resp, response);
@@ -43,32 +39,30 @@ public class ProductController extends HttpServlet {
         JSONObject resp = new JSONObject();
         switch (action) {
             case "add":
-                int productId = jso.getInt("product_id");
                 String productName = jso.getString("product_name");
                 int supplierId = jso.getInt("supplier_id");
-                int productLocation = jso.getInt("product_location");
+                String productLocation = jso.getString("product_location");
                 int productQuantity = jso.getInt("product_quantity");
                 int productPrice = jso.getInt("product_price");
-                resp = ph.addProduct(productId, productName, supplierId, productLocation, productQuantity,
-                        productPrice);
+                resp = ph.addProduct(productName, supplierId, productLocation, productQuantity, productPrice);
                 break;
             case "delete":
-                productId = jso.getInt("product_id");
+                int productId = jso.getInt("product_id");
                 resp = ph.deleteProduct(productId);
                 break;
             case "update":
                 productId = jso.getInt("product_id");
                 productName = jso.getString("product_name");
                 supplierId = jso.getInt("supplier_id");
-                productLocation = jso.getInt("warehouse_id");
-                productQuantity = jso.getInt("quantity");
-                productPrice = jso.getInt("price");
+                productLocation = jso.getString("product_location");
+                productQuantity = jso.getInt("product_quantity");
+                productPrice = jso.getInt("product_price");
                 resp = ph.updateProduct(productId, productName, supplierId, productLocation, productQuantity,
                         productPrice);
                 break;
             default:
                 resp.put("status", "400");
-                resp.put("message", "無效的請求操作");
+                resp.put("message", "Invalid request operation");
                 break;
         }
 
