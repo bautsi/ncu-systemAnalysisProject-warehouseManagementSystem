@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>倉儲管理系統</title>
+    <style>
+      /******************************
+Flexbox Layout
+*******************************/
+
+      .header,
+      .nav {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+      }
+
+      .header {
+        justify-content: space-between;
+      }
+
+      .nav {
+        -webkit-flex: 1;
+        flex: 1;
+        -webkit-justify-content: space-around;
+        justify-content: space-around;
+      }
+
+      @media all and (min-width: 640px) {
+        .header,
+        .nav {
+          -webkit-flex-direction: row;
+          flex-direction: row;
+        }
+      }
+
+      @media all and (min-width: 1030px) {
+        .nav {
+          -webkit-flex: none;
+          flex: none;
+        }
+      }
+
+      /******************************
+Treehouse Styling
+*******************************/
+
+      body {
+        margin: 0;
+        font-family: Helvetica;
+        background: url("statics/img/background.png") top center
+          no-repeat;
+        background-size: cover;
+      }
+
+      .header {
+        padding: 20px 0;
+        margin: 0 auto;
+      }
+
+      .logo {
+        background: transparent url("statics/img/homeicon.png") center
+          center no-repeat;
+        width: 195px;
+        height: 65px; /* 調整高度 */
+        background-size: contain;
+        text-indent: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        transform: scale(4); /* 放大三倍 */
+      }
+
+      .nav {
+        list-style: none;
+      }
+
+      .nav li {
+        margin: 12px 0 12px 28px;
+      }
+      .nav li a {
+        text-decoration: none;
+        color: #010101;
+        font-size: 16px; /* 調整字體大小 */
+        font-weight: bold; /* 加粗 */
+        text-transform: uppercase;
+        background: transparent; /* 新增這行，使背景透明 */
+        border-radius: 2px;
+        transition: background 200ms ease-in-out; /* 調整 transition 效果 */
+        padding: 8px 16px 7px;
+      }
+
+      .nav li a:hover {
+        background: rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .nav li:last-child a {
+        background: transparent;
+        border-radius: 2px;
+        transition: 200ms ease-in-out;
+        padding: 8px 16px 7px;
+      }
+
+      .nav li:last-child a:hover {
+        background: rgba(255, 255, 255, 0.5);
+        color: #fff;
+      }
+
+      @media all and (min-width: 1030px) {
+        .header {
+          width: 1030px;
+          min-width: 768px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="logo">Logo</h1>
+      <ul class="nav">
+        <li><a onclick="loadWarehousePage()">倉庫管理</a></li>
+        <li><a onclick="loadgoods()">產品管理</a></li>
+        <li><a onclick="tracegoods()">庫存追蹤</a></li>
+        <li><a onclick="loadorder()">訂單管理</a></li>
+        <li><a onclick="loadsupplier()">供應商管理</a></li>
+        <li><a onclick="loadmanager()">管理員管理</a></li>
+        <li><a onclick="loadreport()">銷售報告</a></li>
+      </ul>
+    </header>
+    <script>
+      function loadWarehousePage() {
+        // 使用 JavaScript 將兩個介面切換
+        window.location.href = "warehouse.html";
+      }
+      function loadgoods() {
+        window.location.href = "product.html";
+      }
+      function tracegoods() {
+        window.location.href = "inventory_tracking.html";
+      }
+      function loadorder() {
+        window.location.href = "order.html";
+      }
+      function loadsupplier() {
+        window.location.href = "supplier.html";
+      }
+      function loadmanager() {
+        window.location.href = "login.html";
+      }
+      function loadreport() {
+        window.location.href = "sellorstorage.html";
+      }
+    </script>
+  </body>
+</html>
