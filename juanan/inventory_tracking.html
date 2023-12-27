@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +26,24 @@
             font-size: 30px;
         }
 
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            background-color: #fff;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #5596f0;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #5596f0;
+        }
+
         div {
             margin-top: 5px;
         }
@@ -41,6 +58,7 @@
             cursor: pointer;
         }
 
+        /* FORM */
         .form {
             grid-column: 3 / 4;
             grid-row: 3 / 4;
@@ -70,7 +88,7 @@
 
         .segmented-control {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             justify-content: space-between;
         }
@@ -82,10 +100,30 @@
         .btn {
             padding: 8px;
             cursor: pointer;
+        }
+
+        .btn-purple {
+            background-color: #6A5ACD;
+            color: white;
+        }
+
+        .add-warehouse-button {
+            margin-top: auto;
+            margin-bottom: auto;
+            margin-left: 10px;
+        }
+
+        .home-button {
+            margin-left: auto;
+            order: 2;
+        }
+
+        .btn {
+            padding: 8px;
+            cursor: pointer;
             background-color: #6A5ACD; 
             color: white;
             height: 2rem; 
-            margin-left: 10px
         }
 
         .form__input {
@@ -105,88 +143,52 @@
                 class="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-indigo-600 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
             <span class="relative text-indigo-600 transition duration-300 group-hover:text-white ease">回首頁</span>
         </a>
+    </div>
+
+    <div class="segmented-control">
         <div class="flex">
             <label for="productName" class="form__label">產品名稱:</label>
             <input type="text" id="productName" class="form__input" required>
-        
-            <button class="btn" onclick="generateStockReport()">生成庫存報告</button>
         </div>
+
         <div>
             <button class="btn" onclick="generateMovementHistory()">生成移動歷史</button>
+            <button class="btn" onclick="generateStockReport()">生成庫存報告</button>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  
+
+    <table id="inventoryTable">
+        <thead>
+            <tr>
+                <th>產品編號</th>
+                <th>產品名稱</th>
+                <th>供應商編號</th>
+                <th>倉庫地址</th>
+                <th>產品數量</th>
+                <th>產品單價</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>可樂</td>
+                <td>1</td>
+                <td>新北市永和區竹林路73號</td>
+                <td>20</td>
+                <td>30</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
     <script>
-    function generateStockReport() {
-        var productName = document.getElementById("productName").value;
+        function generateMovementHistory() {
+            // 生成移動歷史
+        }
 
-        fetch('/projectbecode-main/api/product.do', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'getProductInfo',
-                product_name: productName,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === '200') {
-                // 创建表格并填充数据
-                var reportArea = document.getElementById("reportArea");
-                reportArea.innerHTML = '<h3>庫存報告</h3>';
-                var table = '<table border="1"><tr><th>產品名稱</th><th>倉庫ID</th><th>產品位置</th><th>總數量</th></tr>';
-                table += '<tr><td>' + data.response.product_name + '</td><td>' + data.response.warehouse_id + '</td><td>' + data.response.product_location + '</td><td>' + data.response.total_quantity + '</td></tr>';
-                table += '</table>';
-                reportArea.innerHTML += table;
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            alert('Unable to connect to the server');
-            console.error('Error:', error);
-        });
-    }
-    function generateMovementHistory() {
-        var productName = document.getElementById("productName").value;
-
-        fetch('/projectbecode-main/api/product.do', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'getMovementHistory',
-                product_name: productName,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === '200') {
-                // 创建表格并填充数据
-                var reportArea = document.getElementById("reportArea");
-                reportArea.innerHTML = '<h3>移動歷史報告</h3>';
-                var table = '<table border="1"><tr><th>追踪ID</th><th>倉庫ID</th><th>產品ID</th><th>數量變化</th><th>更新時間</th></tr>';
-                
-                for (var i = 0; i < data.response.length; i++) {
-                    table += '<tr><td>' + data.response[i].tracking_id + '</td><td>' + data.response[i].warehouse_id + '</td><td>' + data.response[i].product_id + '</td><td>' + data.response[i].quantity_change + '</td><td>' + data.response[i].update_time + '</td></tr>';
-                }
-                
-                table += '</table>';
-                reportArea.innerHTML += table;
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            alert('Unable to connect to the server');
-            console.error('Error:', error);
-        });
-    }
-
+        function generateStockReport() {
+            // 生成庫存報告
+        }
     </script>
 </body>
 </html>
