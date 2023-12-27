@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>庫存追蹤系統</title>
@@ -8,7 +9,6 @@
       src="https://kit.fontawesome.com/9b680ef726.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="statics/css/search.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
@@ -212,38 +212,76 @@
     </table>
 
     <div class="report-header center-text">
-      <div class="report-text left">銷冠王：蛋白粉</div>
-      <div class="report-text right">銷量王：可樂</div>
+      <div id="bestSellingProduct" class="report-text left">銷冠王：</div>
+      <div id="topSalesProduct" class="report-text right">銷量王：</div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-      // 使用 AJAX 向後端發送請求
-      $.ajax({
-        type: "GET",
-        url: "/api/sales-report", // 替換為實際的後端 API 路徑
-        dataType: "json",
-        success: function (response) {
-          // 清空表格內容
-          $("#trackingTable tbody").empty();
+      $(document).ready(function () {
+        // 使用 AJAX 向後端發送請求
+        $.ajax({
+          type: "POST",
+          url: "api/order.do",
+          dataType: "json",
+          contentType: "application/json", // 指定發送的內容類型
+          data: JSON.stringify({ action: "generateSalesReport" }), // 要發送的資料轉成 JSON 字串
+          success: function (response) {
+            // 清空表格內容
+            $("#trackingTable tbody").empty();
 
-          // 將 AJAX 返回的數據填充到表格中
-          for (let i = 0; i < response.length; i++) {
+            // 將 AJAX 返回的數據填充到表格中
+            const salesData = response;
             const row = `<tr>
-                          <td>${response[i].productName}</td>
-                          <td>${response[i].salesQuantity}</td>
-                          <td>${response[i].productPrice}</td>
-                          <td>${response[i].salesAmount}</td>
-                      </tr>`;
+                            <td>${salesData.product_name}</td>
+                            <td>${salesData.total_quantity}</td>
+                            <td>${salesData.unit_price}</td>
+                            <td>${salesData.total_sales}</td>
+                        </tr>`;
             $("#trackingTable tbody").append(row);
-          }
+          },
+          error: function () {
+            alert("無法連線到伺服器");
+          },
+        });
+      });
 
-          // 更新報告標題
-          $(".report-text.left").text(`銷冠王：${response[0].productName}`);
-          $(".report-text.right").text(`銷量王：${response[1].productName}`);
-        },
-        error: function () {
-          alert("無法連線到伺服器");
-        },
+      // 以下的部分不需要修改，仍然保持原樣
+      $(document).ready(function () {
+        // 獲取「銷冠王」
+        $.ajax({
+          type: "POST",
+          url: "api/order.do",
+          dataType: "json",
+          contentType: "application/json",
+          data: JSON.stringify({ action: "comparePackedOrders" }),
+          success: function (response) {
+            // 更新報告標題
+            $("#bestSellingProduct").text(
+              `銷冠王：${response.product_name_result}`
+            );
+          },
+          error: function () {
+            alert("無法連線到伺服器");
+          },
+        });
+
+        // 獲取「銷量王」
+        $.ajax({
+          type: "POST",
+          url: "api/order.do",
+          dataType: "json",
+          contentType: "application/json",
+          data: JSON.stringify({ action: "compareMaxSalesOrder" }),
+          success: function (response) {
+            // 更新報告標題
+            $("#topSalesProduct").text(
+              `銷量王：${response.total_price_result}`
+            );
+          },
+          error: function () {
+            alert("無法連線到伺服器");
+          },
+        });
       });
     </script>
   </body>
