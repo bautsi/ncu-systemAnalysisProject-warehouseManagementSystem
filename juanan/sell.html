@@ -217,68 +217,52 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
       $(document).ready(function () {
-        // 使用 AJAX 向後端發送請求
+        // 请求生成销售报告
         $.ajax({
           type: "POST",
           url: "api/order.do",
           dataType: "json",
-          contentType: "application/json", // 指定發送的內容類型
-          data: JSON.stringify({ action: "generateSalesReport" }), // 要發送的資料轉成 JSON 字串
+          contentType: "application/json",
+          data: JSON.stringify({ action: "generateSalesReport" }),
           success: function (response) {
-            // 清空表格內容
+            // 清空表格内容
             $("#trackingTable tbody").empty();
 
-            // 將 AJAX 返回的數據填充到表格中
-            const salesData = response;
-            const row = `<tr>
+            // 初始化最大销售数量和对应的产品名称
+            var maxQuantity = -1;
+            var topSalesProduct = "";
+            var maxSalesTotal = -1;
+            var bestSellingProduct = "";
+
+            // 填充表格并找到销量王和销冠王
+            response.response.response.forEach(function (salesData) {
+              const row = `<tr>
                             <td>${salesData.product_name}</td>
                             <td>${salesData.total_quantity}</td>
                             <td>${salesData.unit_price}</td>
                             <td>${salesData.total_sales}</td>
                         </tr>`;
-            $("#trackingTable tbody").append(row);
-          },
-          error: function () {
-            alert("無法連線到伺服器");
-          },
-        });
-      });
+              $("#trackingTable tbody").append(row);
 
-      // 以下的部分不需要修改，仍然保持原樣
-      $(document).ready(function () {
-        // 獲取「銷冠王」
-        $.ajax({
-          type: "POST",
-          url: "api/order.do",
-          dataType: "json",
-          contentType: "application/json",
-          data: JSON.stringify({ action: "comparePackedOrders" }),
-          success: function (response) {
-            // 更新報告標題
-            $("#bestSellingProduct").text(
-              `銷冠王：${response.product_name_result}`
-            );
-          },
-          error: function () {
-            alert("無法連線到伺服器");
-          },
-        });
+              // 检查当前行的销售数量是否大于当前最大值
+              if (salesData.total_quantity > maxQuantity) {
+                maxQuantity = salesData.total_quantity;
+                topSalesProduct = salesData.product_name;
+              }
 
-        // 獲取「銷量王」
-        $.ajax({
-          type: "POST",
-          url: "api/order.do",
-          dataType: "json",
-          contentType: "application/json",
-          data: JSON.stringify({ action: "compareMaxSalesOrder" }),
-          success: function (response) {
-            // 更新報告標題
-            $("#topSalesProduct").text(
-              `銷量王：${response.total_price_result}`
-            );
+              // 检查当前行的销售额是否大于当前最大销售总额
+              if (salesData.total_sales > maxSalesTotal) {
+                maxSalesTotal = salesData.total_sales;
+                bestSellingProduct = salesData.product_name;
+              }
+            });
+
+            // 更新销量王和销冠王
+            $("#topSalesProduct").text(`销量王: ${topSalesProduct}`);
+            $("#bestSellingProduct").text(`销冠王: ${bestSellingProduct}`);
           },
           error: function () {
-            alert("無法連線到伺服器");
+            alert("无法连接到服务器");
           },
         });
       });
