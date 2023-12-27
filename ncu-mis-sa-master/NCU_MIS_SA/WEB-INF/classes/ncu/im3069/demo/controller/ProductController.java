@@ -23,12 +23,19 @@ public class ProductController extends HttpServlet {
         JSONObject resp = new JSONObject();
         if ("getAll".equals(action)) {
             resp = ph.getAllProducts();
+        } else if ("getProductInfo".equals(action)) {
+            String productName = jsr.getParameter("product_name");
+            resp = ph.getProductInfo(productName);
+        } else if ("getViewInventoryTracking".equals(action)) {
+            resp = ph.getViewInventoryTracking();
         } else {
-            // 其他 GET 请求的处理逻辑
+            resp.put("status", "400");
+            resp.put("message", "Invalid request operation");
         }
 
         jsr.response(resp, response);
     }
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -142,38 +142,35 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const homeButton = document.querySelector(".home-button");
-
-        homeButton.addEventListener("click", function () {
-          window.location.href = "indextest.html";
+    fetch("api/product.do?action=getViewInventoryTracking")
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.status === "200") {
+                updateTrackingTable(data.response);
+            } else {
+                console.error("Error:", data.message);
+            }
+        })
+        .catch((error) => {
+            console.error("Unable to connect to the server:", error);
         });
+});
 
-        // 使用 AJAX 向後端發送請求
-        $.ajax({
-          type: "GET",
-          url: "/api/inventory/" + productId, // 替換為實際的後端 API 路徑
-          dataType: "json",
-          success: function (response) {
-            const tbody = $("#trackingTable tbody");
-            const row = `
-                        <tr>
-                            <td>${tbody.children().length + 1}</td>
-                            <td>${response.warehouseId}</td>
-                            <td>${productId}</td>
-                            <td>${response.quantityChange}</td>
-                            <td>${response.moveHistory}</td>
-                        </tr>
-                    `;
-            tbody.append(row);
+function updateTrackingTable(trackingData) {
+    var tbody = document.getElementById("trackingTable").getElementsByTagName("tbody")[0];
+    tbody.innerHTML = ""; // 清空现有内容
+    trackingData.forEach(function (item) {
+        var row = `<tr>
+            <td>${item.inventory_tracking_id}</td>
+            <td>${item.warhouse_id}</td>
+            <td>${item.product_id}</td>
+            <td>${item.quantity_change}</td>
+            <td>${item.movement_change}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+    });
+}
 
-            // 清空輸入框
-            $("#productId").val("");
-          },
-          error: function () {
-            alert("無法連線到伺服器");
-          },
-        });
-      });
     </script>
   </body>
 </html>

@@ -141,53 +141,10 @@
       }
 
       function generateMovementHistory() {
-        var productName = document.getElementById("productName").value;
+    var productName = document.getElementById("productName").value;
+    window.location.href = `track.html?productName=${encodeURIComponent(productName)}`;
+}
 
-        fetch("/projectbecode-main/api/product.do", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            action: "getMovementHistory",
-            product_name: productName,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.status === "200") {
-              // 创建表格并填充数据
-              var reportArea = document.getElementById("reportArea");
-              reportArea.innerHTML = "<h3>移動歷史報告</h3>";
-              var table =
-                '<table border="1"><tr><th>追踪ID</th><th>倉庫ID</th><th>產品ID</th><th>數量變化</th><th>更新時間</th></tr>';
-
-              for (var i = 0; i < data.response.length; i++) {
-                table +=
-                  "<tr><td>" +
-                  data.response[i].tracking_id +
-                  "</td><td>" +
-                  data.response[i].warehouse_id +
-                  "</td><td>" +
-                  data.response[i].product_id +
-                  "</td><td>" +
-                  data.response[i].quantity_change +
-                  "</td><td>" +
-                  data.response[i].update_time +
-                  "</td></tr>";
-              }
-
-              table += "</table>";
-              reportArea.innerHTML += table;
-            } else {
-              alert("Error: " + data.message);
-            }
-          })
-          .catch((error) => {
-            alert("Unable to connect to the server");
-            console.error("Error:", error);
-          });
-      }
     </script>
   </body>
 </html>

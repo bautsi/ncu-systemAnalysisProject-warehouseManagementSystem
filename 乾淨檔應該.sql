@@ -42,11 +42,11 @@ CREATE TABLE `inventory_tracking` (
 -- Dumping data for table `inventory_tracking`
 --
 
-LOCK TABLES `inventory_tracking` WRITE;
+
 /*!40000 ALTER TABLE `inventory_tracking` DISABLE KEYS */;
 INSERT INTO `inventory_tracking` VALUES (2,1,2,60,'2023-12-11 21:35:48'),(6,1,3,40,'2023-12-11 22:10:46'),(7,1,4,200,'2023-12-12 13:50:31'),(8,1,3,-40,'2023-12-13 14:29:55'),(11,1,2,-20,'2023-12-16 00:18:47'),(12,2,2,20,'2023-12-16 00:18:47'),(13,1,2,-20,'2023-12-16 00:29:15'),(14,2,2,20,'2023-12-16 00:29:15'),(15,1,2,-20,'2023-12-16 00:30:53'),(16,2,2,20,'2023-12-16 00:30:53'),(22,2,5,290,'2023-12-16 21:48:51'),(23,2,6,20,'2023-12-16 23:59:38'),(25,1,5,-10,'2023-12-17 00:09:37'),(26,1,6,30,'2023-12-17 00:12:00'),(27,1,7,100,'2023-12-17 14:07:50'),(28,2,8,20,'2023-12-17 14:32:35'),(29,1,9,200,'2023-12-17 14:33:13'),(30,1,9,-20,'2023-12-17 14:48:33'),(31,2,9,20,'2023-12-17 14:48:33'),(45,1,10,200,'2023-12-17 15:28:25'),(46,1,10,-20,'2023-12-17 15:39:30'),(47,2,10,20,'2023-12-17 15:39:30'),(48,1,10,-20,'2023-12-17 15:40:31'),(49,2,10,20,'2023-12-17 15:40:31'),(50,2,11,200,'2023-12-17 15:46:17'),(51,1,12,200,'2023-12-18 18:19:30'),(52,1,12,300,'2023-12-18 18:20:11'),(53,1,12,200,'2023-12-18 18:20:58'),(54,1,12,20,'2023-12-18 18:24:30'),(55,1,12,3000,'2023-12-18 18:25:03'),(56,1,12,-200,'2023-12-18 18:39:40'),(57,1,12,200,'2023-12-19 10:14:18'),(58,1,9,200,'2023-12-19 22:51:23'),(59,1,9,200,'2023-12-20 20:46:36'),(60,1,10,200,'2023-12-20 20:50:53'),(61,2,11,200,'2023-12-20 20:51:31'),(62,1,12,200,'2023-12-20 21:49:27'),(63,1,13,100,'2023-12-20 21:50:12'),(64,1,10,200,'2023-12-20 21:51:20');
 /*!40000 ALTER TABLE `inventory_tracking` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `manager`
@@ -68,11 +68,11 @@ CREATE TABLE `manager` (
 -- Dumping data for table `manager`
 --
 
-LOCK TABLES `manager` WRITE;
+
 /*!40000 ALTER TABLE `manager` DISABLE KEYS */;
 INSERT INTO `manager` VALUES (1,'ianchu','123','123'),(2,'gaba','888','888');
 /*!40000 ALTER TABLE `manager` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `orders`
@@ -99,11 +99,11 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-LOCK TABLES `orders` WRITE;
+
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
 INSERT INTO `orders` VALUES (1,1,'牛',20,20,'2023-12-11 22:04:48','Packed'),(2,1,'電腦',500,40,'2023-12-13 14:29:55','Packed'),(3,1,'馬',100,10,'2023-12-17 00:09:37','Packed'),(4,1,'飛可老師',400,200,'2023-12-18 18:39:40','Packed'),(5,1,'飛可老師',400,100,'2023-12-19 12:12:48','Not Packed'),(6,1,'天使',200,10,'2023-12-19 14:59:53','Not Packed'),(7,1,'天使',200,10,'2023-12-19 21:55:34','Not Packed');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `product`
@@ -129,11 +129,11 @@ CREATE TABLE `product` (
 -- Dumping data for table `product`
 --
 
-LOCK TABLES `product` WRITE;
+
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 INSERT INTO `product` VALUES (1,'牛',1,'中央大學',140,20),(2,'鳥',1,'中央大學',60,20),(3,'電腦',1,'中央大學',0,500),(4,'平板',2,'中央大學',200,20),(5,'馬',1,'台大',280,100),(6,'狗',2,'中央大學',50,20),(7,'鼠',2,'11號4樓',100,100),(8,'天使',1,'台大',20,200),(9,'天使',1,'11號4樓',600,20),(10,'酒',1,'11號4樓',440,20),(11,'酒',2,'台大',400,200),(12,'飛可老師',1,'11號4樓',3920,400),(13,'鼠',2,'11號4樓',100,100);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `reporting`
@@ -155,10 +155,10 @@ CREATE TABLE `reporting` (
 -- Dumping data for table `reporting`
 --
 
-LOCK TABLES `reporting` WRITE;
+
 /*!40000 ALTER TABLE `reporting` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reporting` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `supplier`
@@ -178,11 +178,11 @@ CREATE TABLE `supplier` (
 -- Dumping data for table `supplier`
 --
 
-LOCK TABLES `supplier` WRITE;
+
 /*!40000 ALTER TABLE `supplier` DISABLE KEYS */;
 INSERT INTO `supplier` VALUES (1,'小夫'),(2,'567'),(3,'456');
 /*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `tbl_manager_supplier`
@@ -205,10 +205,10 @@ CREATE TABLE `tbl_manager_supplier` (
 -- Dumping data for table `tbl_manager_supplier`
 --
 
-LOCK TABLES `tbl_manager_supplier` WRITE;
+
 /*!40000 ALTER TABLE `tbl_manager_supplier` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tbl_manager_supplier` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `tbl_orders_reporting`
@@ -231,10 +231,10 @@ CREATE TABLE `tbl_orders_reporting` (
 -- Dumping data for table `tbl_orders_reporting`
 --
 
-LOCK TABLES `tbl_orders_reporting` WRITE;
+
 /*!40000 ALTER TABLE `tbl_orders_reporting` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tbl_orders_reporting` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `tbl_product_manager`
@@ -257,10 +257,10 @@ CREATE TABLE `tbl_product_manager` (
 -- Dumping data for table `tbl_product_manager`
 --
 
-LOCK TABLES `tbl_product_manager` WRITE;
+
 /*!40000 ALTER TABLE `tbl_product_manager` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tbl_product_manager` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `tbl_product_orders`
@@ -283,11 +283,11 @@ CREATE TABLE `tbl_product_orders` (
 -- Dumping data for table `tbl_product_orders`
 --
 
-LOCK TABLES `tbl_product_orders` WRITE;
+
 /*!40000 ALTER TABLE `tbl_product_orders` DISABLE KEYS */;
 INSERT INTO `tbl_product_orders` VALUES (3,2),(5,3),(12,4),(12,5),(8,6),(8,7);
 /*!40000 ALTER TABLE `tbl_product_orders` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `tbl_reporting_product`
@@ -310,10 +310,10 @@ CREATE TABLE `tbl_reporting_product` (
 -- Dumping data for table `tbl_reporting_product`
 --
 
-LOCK TABLES `tbl_reporting_product` WRITE;
+
 /*!40000 ALTER TABLE `tbl_reporting_product` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tbl_reporting_product` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `tbl_warhouse_manager`
@@ -336,11 +336,11 @@ CREATE TABLE `tbl_warhouse_manager` (
 -- Dumping data for table `tbl_warhouse_manager`
 --
 
-LOCK TABLES `tbl_warhouse_manager` WRITE;
+
 /*!40000 ALTER TABLE `tbl_warhouse_manager` DISABLE KEYS */;
 INSERT INTO `tbl_warhouse_manager` VALUES (1,1),(2,1);
 /*!40000 ALTER TABLE `tbl_warhouse_manager` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `tbl_warhouse_product`
@@ -363,11 +363,11 @@ CREATE TABLE `tbl_warhouse_product` (
 -- Dumping data for table `tbl_warhouse_product`
 --
 
-LOCK TABLES `tbl_warhouse_product` WRITE;
+
 /*!40000 ALTER TABLE `tbl_warhouse_product` DISABLE KEYS */;
 INSERT INTO `tbl_warhouse_product` VALUES (2,8),(1,9),(2,9),(1,10),(2,11),(1,12),(1,13);
 /*!40000 ALTER TABLE `tbl_warhouse_product` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `warhouse`
@@ -388,11 +388,11 @@ CREATE TABLE `warhouse` (
 -- Dumping data for table `warhouse`
 --
 
-LOCK TABLES `warhouse` WRITE;
+
 /*!40000 ALTER TABLE `warhouse` DISABLE KEYS */;
 INSERT INTO `warhouse` VALUES ('倉庫3號','11號4樓',1),('2號','台大',2);
 /*!40000 ALTER TABLE `warhouse` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Dumping routines for database 'db_saproject1'

@@ -187,4 +187,39 @@ public class ProductHelper {
         }
         return result;
     }
+    
+    public JSONObject getViewInventoryTracking() {
+        JSONObject result = new JSONObject();
+        JSONArray trackingArray = new JSONArray();
+        CallableStatement cstmt = null;
+
+        try {
+            conn = DBMgr.getConnection();
+            cstmt = conn.prepareCall("{CALL sp_view_inventory_tracking()}");
+            ResultSet rs = cstmt.executeQuery();
+
+            while (rs.next()) {
+                JSONObject tracking = new JSONObject();
+                tracking.put("inventory_tracking_id", rs.getInt("inventory_tracking_id"));
+                tracking.put("warhouse_id", rs.getInt("warhouse_id"));
+                tracking.put("product_id", rs.getInt("product_id"));
+                tracking.put("quantity_change", rs.getInt("quantity_change"));
+                tracking.put("movement_change", rs.getString("movement_change"));
+                trackingArray.put(tracking);
+            }
+
+            result.put("status", "200");
+            result.put("message", "Inventory tracking retrieved successfully");
+            result.put("response", trackingArray);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result.put("status", "500");
+            result.put("error", e.getMessage());
+        } finally {
+            DBMgr.close(cstmt, conn);
+        }
+
+        return result;
+    }
+
 }
