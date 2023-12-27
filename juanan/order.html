@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>訂單管理</title>
+        <script src="https://kit.fontawesome.com/9b680ef726.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="statics/css/search.css">
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: linear-gradient(to bottom, #B0C4DE, #6495ED);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                min-height: 100vh;
+                margin: 0;
+                padding: 50px;
+            }
+    
+            h2{
+                color: #333;
+                font-size: 30px;
+            }
+            h3 {
+                color: #333;
+                font-size: 20px;
+            }
+    
+            table {
+                border-collapse: collapse;
+                width: 90%;
+                background-color: #fff;
+                margin-top: 20px;
+            }
+    
+            th,
+            td {
+                border: 1px solid #5596f0;
+                padding: 8px;
+                text-align: left;
+            }
+    
+            th {
+                background-color: #5596f0;
+            }
+    
+            div {
+                margin-top: 5px;
+            }
+    
+            input,
+            button {
+                padding: 8px;
+                margin-right: 10px;
+            }
+    
+            button {
+                cursor: pointer;
+            }
+    
+            /* FORM */
+            .form {
+                grid-column: 3 / 4;
+                grid-row: 3 / 4;
+            }
+    
+            .form__input {
+                width: 10rem;
+                height: 2rem;
+                border: none;
+                border-radius: 1rem;
+                font-size: 1.4rem;
+                padding-left: 1.4rem;
+                box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+                background: none;
+                font-family: inherit;
+                color: var(--greyDark);
+            }
+    
+            .form__input::placeholder {
+                color: var(--greyLight-3);
+            }
+    
+            .form__input:focus {
+                outline: none;
+                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+    
+            .segmented-control {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+    
+            .form__label {
+                margin-right: 10px;
+            }
+    
+            .btn {
+                padding: 8px;
+                cursor: pointer;
+            }
+    
+            .btn-purple {
+                background-color: #6A5ACD;
+                color: white;
+            }
+    
+            .add-warehouse-button {
+                margin-top: auto;
+                margin-bottom: auto;
+                margin-left: 10px;
+            }
+    
+            .home-button {
+                margin-left: auto;
+                order: 2;
+            }
+        </style>
+    </head>
+
+<body>
+    <body>
+        <div class="segmented-control">
+            <h2 class="mb-4">訂單管理</h2>
+            <a href="#_"
+                class="home-button rounded-md px-2 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-indigo-600 text-indigo-600 focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 focus:ring-opacity-50 hover:bg-indigo-600 hover:text-white"
+                style="position: absolute; top: 0; right: 0; z-index: 1;">
+                <span
+                    class="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-indigo-600 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
+                <span class="relative text-indigo-600 transition duration-300 group-hover:text-white ease">回首頁</span>
+            </a>
+        </div>
+    
+        <div class="segmented-control">
+            <div class="flex">
+                <label for="supplierNumber" class="form__label">供應商編號:</label>
+                <input type="text" id="supplierNumber" class="form__input" required>
+    
+                <label for="productName" class="form__label">產品名稱:</label>
+                <input type="text" id="productName" class="form__input" required>
+    
+                <label for="productLocation" class="form__label">產品位置:</label>
+                <input type="text" id="productLocation" class="form__input" required>
+    
+                <label for="productQuantity" class="form__label">產品數量:</label>
+                <input type="text" id="productQuantity" class="form__input" required>
+            </div>
+    
+            <div>
+                <button class="btn-purple" onclick="addOrder()">
+                    <span><i class="fa-regular fa-square-plus"></i></span>
+                </button>
+            </div>
+        </div>
+    
+        <h3>已完成訂單</h3>
+        <table id="completedOrdersTable">
+            <thead>
+                <tr>
+                    <th>訂單編號</th>
+                    <th>供應商編號</th>
+                    <th>產品名稱</th>
+                    <th>產品單價</th>
+                    <th>產品數量</th>
+                    <th>訂單成立時間</th>
+                    <th>訂單狀態</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    
+        <h3>未完成訂單</h3>
+        <table id="pendingOrdersTable">
+            <thead>
+                <tr>
+                    <th>訂單編號</th>
+                    <th>供應商編號</th>
+                    <th>產品名稱</th>
+                    <th>產品單價</th>
+                    <th>產品數量</th>
+                    <th>訂單成立時間</th>
+                    <th>訂單狀態</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+        <script>
+            function addOrder() {
+                const supplierNumber = document.getElementById('supplierNumber').value;
+                const productName = document.getElementById('productName').value;
+                const productLocation = document.getElementById('productLocation').value; // Not used in row
+                const productQuantity = document.getElementById('productQuantity').value;
+                const productPrice = 'Unknown'; // Assuming price is unknown for now
+    
+                if (!supplierNumber || !productName || !productLocation || !productQuantity) {
+                    alert('請填寫所有訂單資訊');
+                    return;
+                }
+    
+                const tbody = document.querySelector('#pendingOrdersTable tbody');
+                const newId = tbody.children.length + 1;
+                const orderTime = new Date().toLocaleString();
+                const orderStatus = '未包裝';
+    
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${newId}</td>
+                    <td>${supplierNumber}</td>
+                    <td>${productName}</td>
+                    <td>${productPrice}</td>
+                    <td>${productQuantity}</td>
+                    <td>${orderTime}</td>
+                    <td>${orderStatus}</td>
+                    <td>
+                        <button class="btn-purple" onclick="editOrder(this.parentNode.parentNode)">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                        <button class="btn-purple" onclick="deleteOrder(this.parentNode.parentNode)">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            }
+    
+            function editOrder(row) {
+                const newSupplierNumber = prompt('請輸入新的供應商編號:', row.cells[1].textContent);
+                const newProductName = prompt('請輸入新的產品名稱:', row.cells[2].textContent);
+                const newProductPrice = prompt('請輸入新的產品單價:', row.cells[3].textContent);
+                const newProductQuantity = prompt('請輸入新的產品數量:', row.cells[4].textContent);
+                const newOrderStatus = prompt('請輸入新的訂單狀態:', row.cells[6].textContent);
+    
+                if (newSupplierNumber && newProductName && newProductPrice && newProductQuantity && newOrderStatus) {
+                    row.cells[1].textContent = newSupplierNumber;
+                    row.cells[2].textContent = newProductName;
+                    row.cells[3].textContent = newProductPrice;
+                    row.cells[4].textContent = newProductQuantity;
+                    row.cells[6].textContent = newOrderStatus;
+                }
+            }
+    
+            function deleteOrder(row) {
+                const table = row.parentNode;
+                table.removeChild(row);
+                alert('刪除成功');
+                resequenceOrderNumbers(table);
+            }
+
+            function resequenceOrderNumbers(table) {
+                const rows = table.querySelectorAll('tbody tr');
+                rows.forEach((row, index) => {
+                    row.cells[0].textContent = index + 1;
+                });
+            }
+
+            function loadInitialOrders() {
+                // Add initial orders to the tables
+                addOrderToTable('1', '可樂', '30', '1', '2023/11/25 14:50', '已包裝', 'completedOrdersTable');
+                addOrderToTable('1', '奶粉', '100', '3', '2023/11/25 15:40', '未包裝', 'pendingOrdersTable');
+            }
+
+            function addOrderToTable(supplierNumber, productName, productPrice, productQuantity, orderTime, orderStatus, tableId) {
+                const tbody = document.querySelector(`#${tableId} tbody`);
+                const newId = tbody.children.length + 1;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${newId}</td>
+                    <td>${supplierNumber}</td>
+                    <td>${productName}</td>
+                    <td>${productPrice}</td>
+                    <td>${productQuantity}</td>
+                    <td>${orderTime}</td>
+                    <td>${orderStatus}</td>
+                    <td>
+                        <button class="btn-purple" onclick="editOrder(this.parentNode.parentNode)">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                        <button class="btn-purple" onclick="deleteOrder(this.parentNode.parentNode)">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            }
+
+                
+                        loadInitialOrders();
+                    </script>
+    </body>
+    </html>
