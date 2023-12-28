@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS `manager`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `manager` (
-  `manager_id` int NOT NULL,
+  `manager_id` int NOT NULL AUTO_INCREMENT,
   `manager_name` varchar(45) NOT NULL,
   `manager_email` varchar(45) NOT NULL,
   `manager_password` varchar(45) NOT NULL,
