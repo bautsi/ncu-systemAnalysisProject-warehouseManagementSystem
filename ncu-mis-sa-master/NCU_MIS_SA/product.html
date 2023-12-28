@@ -288,8 +288,7 @@
       function addProduct() {
         const productName = document.getElementById("productName").value;
         const supplierId = document.getElementById("supplierId").value;
-        const warehouseId =
-          document.getElementById("warehouseId").value;
+        const warehouseId = document.getElementById("warehouseId").value;
         const productQuantity =
           document.getElementById("productQuantity").value;
         const productPrice = document.getElementById("productPrice").value;
@@ -404,7 +403,7 @@
         })
           .then((response) => response.json())
           .then((data) => {
-            alert(data.message);
+            alert("刪除成功");
             getAllProducts(); // 重新獲取並顯示所有產品
           })
           .catch((error) => console.error("錯誤:", error));
