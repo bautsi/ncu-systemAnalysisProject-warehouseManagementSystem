@@ -618,7 +618,7 @@ BEGIN
         INSERT INTO tbl_product_orders(product_id, order_id)
         VALUES (v_product_id, v_order_id);
 
-        SELECT 'Order added successfully.' AS result;
+        SELECT 'Order added successfully.' AS result, v_order_id AS new_result_id;
     END IF;
 END ;;
 DELIMITER ;

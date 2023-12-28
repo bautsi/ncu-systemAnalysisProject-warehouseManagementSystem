@@ -18,7 +18,7 @@ public class OrderHelper {
         return oh;
     }
 
-    public JSONObject addOrder(int managerId, String productName, String productLocation, int quantity) {
+    public JSONObject addOrder(int managerId, String productName, String productLocation, int productQuantity) {
         JSONObject result = new JSONObject();
         Connection conn = null;
         CallableStatement cstmt = null;
@@ -30,11 +30,11 @@ public class OrderHelper {
             cstmt.setInt(1, managerId);
             cstmt.setString(2, productName);
             cstmt.setString(3, productLocation);
-            cstmt.setInt(4, quantity);
+            cstmt.setInt(4, productQuantity);
 
             ResultSet rs = cstmt.executeQuery();
             if (rs.next()) {
-                result.put("result", rs.getString("result"));
+                result.put("new_result_id", rs.getString("new_result_id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -145,6 +145,7 @@ public class OrderHelper {
         }
         return result;
     }
+
 
     public JSONObject generateSalesReport() {
         JSONObject result = new JSONObject();

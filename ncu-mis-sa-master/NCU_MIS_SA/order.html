@@ -1,136 +1,483 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-  <meta name="generator" content="Jekyll v3.8.5">
-
-  <title>訂單列表 ｜ NCU MIS SA</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="statics/css/bootstrap.min.css" rel="stylesheet">
-  <link href="statics/css/font-awesome.min.css" rel="stylesheet">
-  <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
-  <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
-
-
-  <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
-    }
-  </style>
-  <!-- Custom styles for this template -->
-  <link href="statics/css/product.css" rel="stylesheet">
-  <link href="statics/css/jquery-confirm.css" rel="stylesheet">
-
-  <script src="statics/js/jquery-3.4.1.min.js"></script>
-  <script src="statics/js/jquery-confirm.js"></script>
-  <script src="statics/js/big.min.js"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>訂單管理</title>
+        <script src="https://kit.fontawesome.com/9b680ef726.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="statics/css/search.css">
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: linear-gradient(to bottom, #B0C4DE, #6495ED);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                min-height: 100vh;
+                margin: 0;
+                padding: 50px;
+            }
+    
+            h2{
+                color: #333;
+                font-size: 30px;
+            }
+            h3 {
+                color: #333;
+                font-size: 20px;
+            }
+    
+            table {
+                border-collapse: collapse;
+                width: 90%;
+                background-color: #fff;
+                margin-top: 20px;
+            }
+    
+            th,
+            td {
+                border: 1px solid #5596f0;
+                padding: 8px;
+                text-align: left;
+            }
+    
+            th {
+                background-color: #5596f0;
+            }
+    
+            div {
+                margin-top: 5px;
+            }
+    
+            input,
+            button {
+                padding: 8px;
+                margin-right: 10px;
+            }
+    
+            button {
+                cursor: pointer;
+            }
+    
+            /* FORM */
+            .form {
+                grid-column: 3 / 4;
+                grid-row: 3 / 4;
+            }
+    
+            .form__input {
+                width: 10rem;
+                height: 2rem;
+                border: none;
+                border-radius: 1rem;
+                font-size: 1.4rem;
+                padding-left: 1.4rem;
+                box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+                background: none;
+                font-family: inherit;
+                color: var(--greyDark);
+            }
+    
+            .form__input::placeholder {
+                color: var(--greyLight-3);
+            }
+    
+            .form__input:focus {
+                outline: none;
+                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+    
+            .segmented-control {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+    
+            .form__label {
+                margin-right: 10px;
+            }
+    
+            .btn {
+                padding: 8px;
+                cursor: pointer;
+            }
+    
+            .btn-purple {
+                background-color: #6A5ACD;
+                color: white;
+            }
+    
+            .add-warehouse-button {
+                margin-top: auto;
+                margin-bottom: auto;
+                margin-left: 10px;
+            }
+    
+            .home-button {
+                margin-left: auto;
+                order: 2;
+            }
+        </style>
+    </head>
 
 <body>
-  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <h5 class="my-0 mr-md-auto font-weight-normal">NCU_MIS-SA</h5>
-    <nav class="my-2 my-md-0 mr-md-3">
-      <a class="p-2 text-dark" href="index.html">會員管理模組</a>
-      <a class="p-2 text-dark" href="product.html">商品列表</a>
-      <a class="p-2 text-dark" href="order.html">訂單列表</a>
-    </nav>
-    <a class="btn btn-outline-primary" href="cart.html">購物車</a>
-  </div>
-
-  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center bg-light">
-    <h1 class="display-4">訂單列表</h1>
-    <p class="lead">以下是目前所存在之所有訂單</p>
-  </div>
-
-  <div class="container">
-	  <div class="py-5">
-	  	<div class='row'>
-		  	<div id='order_panel' class="row mb-2">
+    <body>
+        <div class="segmented-control">
+            <h2 class="mb-4">訂單管理</h2>
+            <a href="home.html"
+                class="home-button rounded-md px-2 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-indigo-600 text-indigo-600 focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 focus:ring-opacity-50 hover:bg-indigo-600 hover:text-white"
+                style="position: absolute; top: 0; right: 0; z-index: 1;">
+                <span
+                    class="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-indigo-600 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
+                <span class="relative text-indigo-600 transition duration-300 group-hover:text-white ease">回首頁</span>
+            </a>
         </div>
-      </div>
-	  </div>
-  </div>
+    
+        <div class="segmented-control">
+            <div class="flex">
+                <label for="managerId" class="form__label">管理員編號:</label>
+                <input type="text" id="managerId" class="form__input" required>
+    
+                <label for="productName" class="form__label">產品名稱:</label>
+                <input type="text" id="productName" class="form__input" required>
+    
+                <label for="productLocation" class="form__label">產品位置:</label>
+                <input type="text" id="productLocation" class="form__input" required>
+    
+                <label for="productQuantity" class="form__label">產品數量:</label>
+                <input type="text" id="productQuantity" class="form__input" required>
+            </div>
+    
+            <div>
+                <button class="btn-purple" onclick="addOrder()">
+                    <span><i class="fa-regular fa-square-plus"></i></span>
+                </button>
+            </div>
+        </div>
+    
+        <h3>已完成訂單</h3>
+        <table id="completedOrdersTable">
+            <thead>
+                <tr>
+                    <th>訂單編號</th>
+                    <th>管理員編號</th>
+                    <th>產品名稱</th>
+                    <th>產品單價</th>
+                    <th>產品數量</th>
+                    <th>訂單成立時間</th>
+                    <th>訂單狀態</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    
+        <h3>未完成訂單</h3>
+        <table id="pendingOrdersTable">
+            <thead>
+                <tr>
+                    <th>訂單編號</th>
+                    <th>管理員編號</th>
+                    <th>產品名稱</th>
+                    <th>產品單價</th>
+                    <th>產品數量</th>
+                    <th>訂單成立時間</th>
+                    <th>訂單狀態</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+        <script>
 
-  <script>
-  
-  function getAllOrderData() {
-	  $.ajax({
-          type: "GET",
-          url: "api/order.do",
-          crossDomain: true,
-          cache: false,
-          dataType: 'json',
-          timeout: 5000,
-          success: function (response) {
-              if(response.status == 200){
-            	  updateHTML(response.response.data);
-              }
-              console.log(response);
-          },
-          error: function () {
-              alert("無法連線到伺服器！");
-          }
+            function viewOrders() {
+                fetch("api/order.do?action=viewAll")
+        .then((response) => {
+            console.log('Response Headers:', response.headers);
+            return response.json();
+        })
+        .then((data) => {
+            console.log('Response Body:', data);
+            if (data.status === "200") {
+                populateTable(data.response);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch((error) => console.error("Error:", error));
+            }
+
+            // HTML 和 JavaScript
+
+function populateTable(orders){
+    const tbody1 = document.querySelector('#completedOrdersTable tbody');
+    const tbody2 = document.querySelector('#pendingOrdersTable tbody');
+    tbody1.innerHTML = '';
+    tbody2.innerHTML = '';
+
+    orders.forEach((order) => {
+        const row = document.createElement('tr');
+        row.setAttribute('data-id', order.order_id);
+        row.innerHTML = `
+            <td>${order.order_id}</td>
+            <td>${order.manager_id}</td>
+            <td>${order.product_name}</td>
+            <td>${order.product_price}</td>
+            <td>${order.product_quantity}</td>
+            <td>${order.packed_time}</td>
+            <td>${order.statement}</td>
+            <td>
+                ${getEditButton(order.statement, order.order_id)}
+                <button class="btn-purple" onclick="deleteOrder(this.parentNode.parentNode)">
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
+                ${order.statement !== 'Packed' ? `<button class="btn-purple" onclick="packOrder(${order.order_id}, this)">
+                    <i class="fa-solid fa-boxes-packing"></i>
+                </button>` : ''}
+            </td>
+        `;
+
+        if (order.statement === 'Packed') {
+            tbody1.appendChild(row);
+        } else {
+            tbody2.appendChild(row);
+        }
+    })
+}
+
+function packOrder(orderId, button) {
+    fetch("api/order.do", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "packOrder", order_id: orderId }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.status === "200") {
+            alert("訂單打包成功");
+            viewOrders(); // 刷新列表
+        } else {
+            alert("打包失敗: " + data.message);
+        }
+    })
+    .catch((error) => {
+        console.error("錯誤:", error);
+        alert("發生錯誤: " + error);
     });
-  }
-  
-  getAllOrderData();
-  
-  function updateHTML(data) {
-	  var inner_html = '';
-	  var temp = '';
-	  
-	  $.each(data, function (key, value) {
-		  var total_price = Big(0.0);
-		  $.each(value['product_info'], function (k, v) {
-			  total_price = total_price.plus(v['subtotal'])
-		  });
-		  
-		  temp = '<div class="col-md-6">';
-		  temp += '<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">';
-		  temp += '<div class="col p-4 d-flex flex-column position-static">';
-		  temp += '<strong class="d-inline-block mb-2 text-primary">訂單編號：#' + value['order_info']['id'] + '</strong>';
-		  temp += '<h3 class="mb-0"><span class="p-2">' + value['order_info']['last_name'] + '</span>';
-		  temp += '<span>' + value['order_info']['first_name'] + '</span></h3>';
-		  temp += '<hr/>';
-		  temp += '<div class="mb-1 text-muted">建立時間：' + value['order_info']['create'] + '</div>';
-		  temp += '<div class="mb-1 text-muted">修改時間：' + value['order_info']['modify'] + '</div>';
-		  temp += '<p class="card-text mb-auto">總價：$ ' + total_price + '</p>';
-		  temp += '<a href="order_detail.html?id=' + value['order_info']['id'] + '" class="stretched-link">詳細資料</a>';
-		  temp += '</div></div></div>';
-		  inner_html = temp + inner_html;
-	  });
-	  
-	  $('#order_panel').append(inner_html);
-	  
-  }
-  </script>
+}
 
-  <footer class="text-muted">
-    <div class="container">
-      <p class="float-right">
-        <a href="#">Back to top</a>
-      </p>
-      <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-      <p>New to Bootstrap? <a href="https://getbootstrap.com/">Visit the homepage</a> or read our <a
-          href="/docs/4.3/getting-started/introduction/">getting started guide</a>.</p>
-    </div>
-  </footer>
-</body>
 
-</html>
+            function getEditButton(statement, orderId) {
+                if (statement === 'Packed'){
+                    return `
+                        <button class="btn-purple" onclick="editCompletedOrder('${orderId}')">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                    `;
+                }else{
+                        return `
+                            <button class="btn-purple" onclick="editPendingOrder('${orderId}')">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </button>
+                        `;
+                }
+            }
+
+            function addOrder() {
+    const managerId = document.getElementById('managerId').value;
+    const productName = document.getElementById('productName').value;
+    const productLocation = document.getElementById('productLocation').value;
+    const productQuantity = document.getElementById('productQuantity').value;
+
+    if (!managerId || !productName || !productLocation || !productQuantity) {
+        alert('請填寫所有訂單資訊');
+        return;
+    }
+    
+    const dataToSend = {
+        action: 'addOrder',
+        manager_id: managerId,
+        product_name: productName,
+        product_location: productLocation,
+        product_quantity: productQuantity,
+    };
+
+    fetch("api/order.do", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataToSend),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        // 檢查是否存在 error 屬性
+        if (data.response && data.response.error) {
+            // 如果存在 error，顯示錯誤信息
+            alert('該地址無該產品');
+        } else if (data.status === "200") {
+            // 如果沒有 error，並且 status 為 "200"，則顯示成功信息
+            alert(data.message);
+            viewOrders(); // 只在添加操作成功后调用
+        } else {
+            // 如果既沒有 error，也沒有成功的 status，顯示通用錯誤信息
+            alert("發生錯誤: " + data.message);
+        }
+    })
+    .catch((error) => console.error("錯誤:", error));
+}
+
+            
+            function editCompletedOrder(orderId) {
+                const row = document.querySelector(`#completedOrdersTable tbody tr[data-id="${orderId}"]`);
+                if (!row)return;
+
+                // 将单元格转换为输入字段
+                const suppliernumberCell = row.cells[1];
+                const currnetsuppliernumber = suppliernumberCell.textContent;
+                suppliernumberCell.innerHTML = `<input type="text" value="${currnetsuppliernumber}">`;
+                const productnameCell = row.cells[2];
+                const currentproductname = productnameCell.textContent;
+                productnameCell.innerHTML = `<input type="text" value="${currentproductname}">`;
+                const productpriceCell = row.cells[3];
+                const currentproductprice = productpriceCell.textContent;
+                productpriceCell.innerHTML = `<input type="text" value="${currentproductprice}">`;
+                const productquantityCell = row.cells[4];
+                const currentproductquantity = productquantityCell.textContent;
+                productquantityCell.innerHTML = `<input type="text" value="${currentproductquantity}">`;
+                const orderstatusCell = row.cells[6];
+                const currentorderstatus = orderstatusCell.textContent;
+                orderstatusCell.innerHTML = `<input type="text" value="${currentorderstatus}">`;
+
+                // 将编辑按钮转换为保存按钮
+                const editButton = row.cells[7].querySelector('button');
+                editButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
+                editButton.onclick = () => saveCompletedOrder(orderId, row); // 传递 row 参数
+
+            } 
+            
+            function editPendingOrder(orderId) {
+                const row = document.querySelector(`#pendingOrdersTable tbody tr[data-id="${orderId}"]`);
+                if (!row)return;
+
+                // 将单元格转换为输入字段
+                const suppliernumberCell = row.cells[1];
+                const currnetsuppliernumber = suppliernumberCell.textContent;
+                suppliernumberCell.innerHTML = `<input type="text" value="${currnetsuppliernumber}">`;
+                const productnameCell = row.cells[2];
+                const currentproductname = productnameCell.textContent;
+                productnameCell.innerHTML = `<input type="text" value="${currentproductname}">`;
+                const productpriceCell = row.cells[3];
+                const currentproductprice = productpriceCell.textContent;
+                productpriceCell.innerHTML = `<input type="text" value="${currentproductprice}">`;
+                const productquantityCell = row.cells[4];
+                const currentproductquantity = productquantityCell.textContent;
+                productquantityCell.innerHTML = `<input type="text" value="${currentproductquantity}">`;
+                const orderstatusCell = row.cells[6];
+                const currentorderstatus = orderstatusCell.textContent;
+                orderstatusCell.innerHTML = `<input type="text" value="${currentorderstatus}">`;
+
+                // 将编辑按钮转换为保存按钮
+                const editButton = row.cells[7].querySelector('button');
+                editButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
+                editButton.onclick = () => savePendingOrder(orderId, row); // 传递 row 参数
+            }
+
+            function saveCompletedOrder(orderId, row) {
+    const newQuantityInput = row.cells[4].querySelector('input');
+    const newQuantity = newQuantityInput ? newQuantityInput.value : '';
+
+    fetch("api/order.do", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            action: "updateOrder",
+            order_id: orderId,
+            new_quantity: newQuantity
+        }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.status === "200") {
+            alert("編輯成功");
+            location.reload(); // 重新加載頁面
+        } else {
+            alert("更新失敗: " + data.message);
+        }
+    })
+    .catch((error) => {
+        console.error("錯誤:", error);
+        alert("發生錯誤: " + error);
+    });
+}
+
+function savePendingOrder(orderId, row) {
+    const newQuantityInput = row.cells[4].querySelector('input');
+    const newQuantity = newQuantityInput ? newQuantityInput.value : '';
+
+    fetch("api/order.do", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            action: "updateOrder",
+            order_id: orderId,
+            new_quantity: newQuantity
+        }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.status === "200") {
+            alert("編輯成功");
+            location.reload(); // 重新加載頁面
+        } else {
+            alert("更新失敗: " + data.message);
+        }
+    })
+    .catch((error) => {
+        console.error("錯誤:", error);
+        alert("發生錯誤: " + error);
+    });
+}
+
+    
+            function deleteOrder(row) {
+    const orderId = row.getAttribute('data-id');
+    fetch("api/order.do", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "deleteOrder", order_id: orderId }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.response && data.response.error) {
+            // 如果存在 error，顯示錯誤信息
+            alert("刪除失敗: " + data.response.error);
+        } else if (data.status === "200") {
+            // 如果沒有 error，並且 status 為 "200"，則顯示成功信息
+            alert("刪除成功");
+            viewOrders(); // 刷新列表
+        } else {
+            // 如果既沒有 error，也沒有成功的 status，顯示通用錯誤信息
+            alert("發生錯誤: " + data.message);
+        }
+    })
+    .catch((error) => console.error("錯誤:", error));
+}
+
+
+            function resequenceOrderNumbers(table) {
+                const rows = table.querySelectorAll('tbody tr');
+                rows.forEach((row, index) => {
+                    row.cells[0].textContent = index + 1;
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", viewOrders);
+        </script>
+    </body>
+    </html>
