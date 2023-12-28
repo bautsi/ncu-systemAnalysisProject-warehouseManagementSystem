@@ -35,7 +35,7 @@ public class ProductHelper {
             ResultSet rs = cstmt.executeQuery();
             if (rs.next()) {
                 result.put("status", "200");
-                result.put("message", "Product added successfully");
+                result.put("message", "新增成功");
                 result.put("response", rs.getString("result"));
             }
         } catch (SQLException e) {
@@ -86,7 +86,7 @@ public class ProductHelper {
             ResultSet rs = cstmt.executeQuery();
             if (rs.next()) {
                 result.put("status", "200");
-                result.put("message", "Product updated successfully");
+                result.put("message", "更新成功");
                 result.put("response", rs.getString("result"));
             }
         } catch (SQLException e) {
@@ -114,7 +114,7 @@ public class ProductHelper {
                 result.put("total_quantity", rs.getInt("total_quantity_result"));
             } else {
                 result.put("status", "404");
-                result.put("message", "Product not found");
+                result.put("message", "無此產品");
             }
         } catch (SQLException e) {
             e.printStackTrace();

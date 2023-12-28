@@ -4,6 +4,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>登入</title>
     <style>
       html {
@@ -180,6 +181,16 @@
     </style>
   </head>
   <body>
+	          <div class="segmented-control">
+            <h2 class="mb-4"></h2>
+            <a href="home.html"
+                class="home-button rounded-md px-2 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-indigo-600 text-indigo-600 focus:outline-none focus:ring focus:border-blue-300 focus:ring-blue-200 focus:ring-opacity-50 hover:bg-indigo-600 hover:text-white"
+                style="position: absolute; top: 0; right: 0; z-index: 1;">
+                <span
+                    class="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-indigo-600 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease"></span>
+                <span class="relative text-indigo-600 transition duration-300 group-hover:text-white ease">回首頁</span>
+            </a>
+        </div>
     <div class="login-box">
       <h2>Login</h2>
       <form>

@@ -29,9 +29,9 @@ public class WarehouseHelper {
 
             int affectedRows = cstmt.executeUpdate(); // 使用 executeUpdate 而不是 executeQuery
             if (affectedRows > 0) {
-                result.put("message", "Warehouse added successfully.");
+                result.put("message", "新增成功");
             } else {
-                result.put("message", "No warehouse was added.");
+                result.put("message", "新增失敗");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class WarehouseHelper {
 
             ResultSet rs = cstmt.executeQuery();
             if (rs.next()) {
-                result.put("message", "Warehouse deleted successfully.");
+                result.put("message", "刪除成功");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,9 +75,9 @@ public class WarehouseHelper {
 
             int affectedRows = cstmt.executeUpdate(); // 使用 executeUpdate 而不是 executeQuery
             if (affectedRows > 0) {
-                result.put("message", "Warehouse updated successfully.");
+                result.put("message", "更新成功");
             } else {
-                result.put("message", "No warehouse was updated.");
+                result.put("message", "更新失敗");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,7 +114,7 @@ public class WarehouseHelper {
 
         JSONObject result = new JSONObject();
         result.put("status", "200");
-        result.put("message", "所有仓库数据获取成功");
+        result.put("message", "獲取成功");
         result.put("response", warehouses);
         return result;
     }
