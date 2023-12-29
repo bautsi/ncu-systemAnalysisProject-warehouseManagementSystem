@@ -111,7 +111,7 @@ public class ManagerHelper {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            response.put("message", "数据库错误: " + e.getMessage());
+            response.put("message", "資料庫錯誤: " + e.getMessage());
         } finally {
             DBMgr.close(pres, conn);
         }

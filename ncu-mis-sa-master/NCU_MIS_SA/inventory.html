@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>庫存管理</title>
+    <title>庫存報告</title>
     <script
       src="https://kit.fontawesome.com/9b680ef726.js"
       crossorigin="anonymous"
@@ -61,17 +61,16 @@
       }
 
       #productName {
-        background: transparent; /* Make input field background transparent */
-        box-shadow: none; /* Remove box shadow */
-        border: none; /* Optionally remove border if desired */
-        outline: none; /* Remove outline to maintain the style on focus */
+        background: transparent;
+        box-shadow: none;
+        border: none;
+        outline: none;
       }
 
       button {
         cursor: pointer;
       }
 
-      /* FORM */
       .form {
         grid-column: 3 / 4;
         grid-row: 3 / 4;
@@ -179,7 +178,7 @@
         return new URLSearchParams(window.location.search).get(name);
       }
 
-      // 加载并显示产品信息
+      // 加載後顯示產品信息
       function loadProductInfo(productName) {
         var url = `api/product.do?action=getProductInfo&product_name=${encodeURIComponent(
           productName
@@ -200,9 +199,8 @@
           });
       }
 
-      // 解析库存信息
+      // 解析庫存信息
       function parseStockInfo(stockString) {
-        // 您的解析逻辑
         var stockParts = stockString.split("Warehouse ID: ");
         var stockInfo = [];
         for (var i = 1; i < stockParts.length; i++) {
@@ -235,7 +233,7 @@
         });
       }
 
-      // 更新总数
+      // 更新總數
       function updateTotalProducts(stockInfo) {
         var totalQuantity = stockInfo.reduce(
           (acc, item) => acc + parseInt(item.product_quantity),
@@ -244,7 +242,7 @@
         document.getElementById("totalProducts").textContent = totalQuantity;
       }
 
-      // 页面加载时执行
+      // 事件監聽
       document.addEventListener("DOMContentLoaded", function () {
         var productName = getURLParameter("productName");
         if (productName) {

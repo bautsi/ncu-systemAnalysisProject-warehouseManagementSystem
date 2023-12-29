@@ -46,18 +46,22 @@ public class OrderController extends HttpServlet {
             String productLocation = jso.optString("product_location");
             int productQuantity = jso.getInt("product_quantity"); 
 
-            // 确保传递所有必要的参数给 addOrder 方法
             JSONObject result = oh.addOrder(managerId, productName, productLocation, productQuantity); // 这里使用的是合并后的参数
             resp.put("status", "200");
             resp.put("message", "訂單新增成功");
             resp.put("response", result);
         } else if ("packOrder".equals(action)) {
             int orderId = jso.getInt("order_id");
-
             JSONObject result = oh.packOrder(orderId);
-            resp.put("status", "200");
-            resp.put("message", "訂單打包成功");
-            resp.put("response", result);
+
+            if (result.has("error")) {
+                resp.put("status", "500");
+                resp.put("message", "產品數量不足");
+            } else {
+                resp.put("status", "200");
+                resp.put("message", "訂單打包成功");
+                resp.put("response", result);
+            }
         } else if ("generateSalesReport".equals(action)) {
             JSONObject report = oh.generateSalesReport();
             resp.put("status", "200");

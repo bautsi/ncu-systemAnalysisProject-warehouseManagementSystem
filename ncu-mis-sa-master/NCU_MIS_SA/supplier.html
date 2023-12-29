@@ -64,7 +64,6 @@
         cursor: pointer;
       }
 
-      /* FORM */
       .form {
         grid-column: 3 / 4;
         grid-row: 3 / 4;
@@ -186,7 +185,7 @@
           .then((data) => {
             if (data.status === "200" || data.new_supplier_id) {
               alert("新增成功");
-              getAllSuppliers(); // 只在添加操作成功后调用
+              getAllSuppliers();
             } else {
               alert(data.message);
             }
@@ -200,12 +199,10 @@
         );
         if (!row) return;
 
-        // 将单元格转换为输入字段
         const nameCell = row.cells[1];
         const currentName = nameCell.textContent;
         nameCell.innerHTML = `<input type='text' value='${currentName}' />`;
 
-        // 将编辑按钮转换为保存按钮
         const editButton = row.cells[2].querySelector("button");
         editButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
         editButton.onclick = () => saveSupplier(supplierId, row); // 传递 row 参数
@@ -226,8 +223,7 @@
           .then((response) => response.json())
           .then((data) => {
             if (data.message === "Supplier updated successfully.") {
-              alert("编辑成功");
-              // 还原为文本和编辑按钮
+              alert("更新成功");
               row.cells[1].textContent = nameInput;
               const editButton = row.cells[2].querySelector("button");
               editButton.innerHTML = `<i class="fa-regular fa-pen-to-square"></i>`;
@@ -251,12 +247,10 @@
           .then((response) => response.json())
           .then((data) => {
             if (data.error) {
-              // 出现错误
               alert("刪除失败: " + data.error);
             } else {
-              // 操作成功
               alert("刪除成功");
-              getAllSuppliers(); // 确保此处调用以刷新列表
+              getAllSuppliers();
             }
           })
           .catch((error) => console.error("錯誤:", error));
@@ -267,7 +261,7 @@
           .then((response) => response.json())
           .then((data) => {
             if (data.status === "200") {
-              populateTable(data.response); // 使用返回的数据填充表格
+              populateTable(data.response);
             } else {
               alert(data.message);
             }
@@ -298,7 +292,6 @@
         });
       }
 
-      // 在文档加载完成时调用 getAllSuppliers()
       document.addEventListener("DOMContentLoaded", getAllSuppliers);
     </script>
   </body>

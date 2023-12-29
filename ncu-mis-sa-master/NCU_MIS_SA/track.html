@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>庫存追蹤系統</title>
+    <title>產品移動歷史報告</title>
     <script
       src="https://kit.fontawesome.com/9b680ef726.js"
       crossorigin="anonymous"
@@ -87,7 +87,6 @@
         order: 2;
       }
 
-      /* Increase font size for the product label */
       .product-label {
         font-size: 18px;
       }
@@ -134,21 +133,7 @@
         </tr>
       </thead>
       <tbody>
-        <!-- 預設值 -->
-        <tr>
-          <td>1</td>
-          <td>101</td>
-          <td>A001</td>
-          <td>+50</td>
-          <td>2023-12-04 23:45:50</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>102</td>
-          <td>A002</td>
-          <td>-20</td>
-          <td>2023-09-13 22:30:12</td>
-        </tr>
+        
       </tbody>
     </table>
 
@@ -170,7 +155,7 @@
 
 function updateTrackingTable(trackingData) {
     var tbody = document.getElementById("trackingTable").getElementsByTagName("tbody")[0];
-    tbody.innerHTML = ""; // 清空现有内容
+    tbody.innerHTML = ""; // 清空現有内容
     trackingData.forEach(function (item) {
         var row = `<tr>
             <td>${item.inventory_tracking_id}</td>

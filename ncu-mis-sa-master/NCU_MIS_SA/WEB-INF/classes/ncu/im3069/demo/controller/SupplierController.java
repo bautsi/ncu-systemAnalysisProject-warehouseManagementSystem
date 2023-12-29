@@ -22,7 +22,6 @@ public class SupplierController extends HttpServlet {
         if ("getAll".equals(action)) {
             resp = sh.getAllSuppliers();
         } else {
-            // 其他 GET 請求的處理
         }
 
         jsr.response(resp, response);

@@ -30,7 +30,6 @@ public class ManagerController extends HttpServlet {
             case "update":
                 handleUpdate(jso, jsr, response);
                 break;
-            // 其他 POST 操作...
         }
     }
 
@@ -69,7 +68,7 @@ public class ManagerController extends HttpServlet {
         String password = jso.getString("manager_password");
 
         JSONObject data = mh.update(id, name, email, password);
-        jsr.response(data, response); // 这里已经包含了成功或失败的消息
+        jsr.response(data, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

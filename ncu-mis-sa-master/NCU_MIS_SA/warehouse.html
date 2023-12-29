@@ -64,7 +64,6 @@
         cursor: pointer;
       }
 
-      /* FORM */
       .form {
         grid-column: 3 / 4;
         grid-row: 3 / 4;
@@ -174,7 +173,6 @@
         </tr>
       </thead>
       <tbody>
-        <!-- 此處應顯示資料庫中的倉庫列表 -->
       </tbody>
     </table>
 
@@ -222,12 +220,12 @@
         });
       }
 
-      // 添加倉庫
+      // 新增倉庫
       function addWarehouse() {
         const warehouseName = document.getElementById("warehouseName").value;
         const warehouseLocation =
           document.getElementById("warehouseLocation").value;
-        const managerId = 1; // 假設的 managerId，您可能需要根據實際情況調整
+        const managerId = 1;
 
         if (!warehouseName || !warehouseLocation) {
           alert("請填寫所有倉庫信息");
@@ -247,7 +245,7 @@
           .then((response) => response.json())
           .then((data) => {
             alert(data.message);
-            getAllWarehouses(); // 重新獲取並顯示所有倉庫
+            getAllWarehouses();
           })
           .catch((error) => console.error("錯誤:", error));
       }
@@ -265,7 +263,7 @@
           .then((response) => response.json())
           .then((data) => {
             alert(data.message);
-            getAllWarehouses(); // 重新獲取並顯示所有倉庫
+            getAllWarehouses();
           })
           .catch((error) => console.error("錯誤:", error));
       }
@@ -311,7 +309,7 @@
               .then((response) => response.json())
               .then((data) => {
                 alert(data.message);
-                getAllWarehouses(); // 重新獲取並顯示所有倉庫
+                getAllWarehouses();
               })
               .catch((error) => console.error("錯誤:", error));
           }

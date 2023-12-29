@@ -17,7 +17,7 @@ public class WarehouseHelper {
         return wh;
     }
 
-    // 添加仓库
+    // 新增倉庫
     public JSONObject addWarehouse(String warehouseName, String warehouseLocation, int managerId) {
         JSONObject result = new JSONObject();
         try {
@@ -42,7 +42,7 @@ public class WarehouseHelper {
         return result;
     }
 
-    // 删除仓库
+    // 删除倉庫
     public JSONObject deleteWarehouse(int warehouseId) {
         JSONObject result = new JSONObject();
         try {
@@ -63,7 +63,7 @@ public class WarehouseHelper {
         return result;
     }
 
-    // 更新仓库
+    // 更新倉庫
     public JSONObject updateWarehouse(int warehouseId, String warehouseName, String warehouseLocation) {
         JSONObject result = new JSONObject();
         try {
@@ -89,7 +89,7 @@ public class WarehouseHelper {
     }
 
 
-    // 获取所有仓库
+    // 獲取所有倉庫
     public JSONObject getAllWarehouses() {
         JSONArray warehouses = new JSONArray();
         PreparedStatement pres = null;

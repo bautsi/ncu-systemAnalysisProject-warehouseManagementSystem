@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>產品管理系統</title>
+    <title>產品管理</title>
     <script
       src="https://kit.fontawesome.com/9b680ef726.js"
       crossorigin="anonymous"
@@ -147,7 +147,6 @@
 
     <div class="segmented-control">
       <div class="flex flex-wrap">
-        <!-- 第一行: 產品名稱、供應商編號、倉庫地址 -->
         <div class="flex items-center">
           <label for="productName" class="form__label">產品名稱:</label>
           <input type="text" id="productName" class="form__input" required />
@@ -165,7 +164,6 @@
       </div>
 
       <div class="flex flex-wrap mt-4">
-        <!-- 第二行: 產品數量、產品價格 -->
         <div class="flex items-center">
           <label for="productQuantity" class="form__label">產品數量:</label>
           <input
@@ -192,7 +190,6 @@
     <table id="productTable">
       <thead>
         <tr>
-          <!-- Included the "產品編號" header -->
           <th>產品編號</th>
           <th>產品名稱</th>
           <th>供應商編號</th>
@@ -203,39 +200,6 @@
         </tr>
       </thead>
       <tbody>
-        <!-- 預設值 -->
-        <tr>
-          <td>1</td>
-          <td>可樂</td>
-          <td>3</td>
-          <td>台南市新港區新興街8號之26</td>
-          <td>300</td>
-          <td>30</td>
-          <td>
-            <button class="btn-purple" onclick="editProduct('1')">
-              <i class="fa-regular fa-pen-to-square"></i>
-            </button>
-            <button class="btn-purple" onclick="deleteProduct('1')">
-              <i class="fa-regular fa-trash-can"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>奶粉</td>
-          <td>2</td>
-          <td>桃園市桃園區興邦路46號 (龜山工業區)</td>
-          <td>250</td>
-          <td>150</td>
-          <td>
-            <button class="btn-purple" onclick="editProduct('2')">
-              <i class="fa-regular fa-pen-to-square"></i>
-            </button>
-            <button class="btn-purple" onclick="deleteProduct('2')">
-              <i class="fa-regular fa-trash-can"></i>
-            </button>
-          </td>
-        </tr>
       </tbody>
     </table>
 
@@ -315,7 +279,7 @@
           .then((response) => response.json())
           .then((data) => {
             alert(data.message);
-            getAllProducts(); // 重新獲取並顯示所有產品
+            getAllProducts();
           })
           .catch((error) => console.error("錯誤:", error));
       }
@@ -332,7 +296,7 @@
           .then((response) => response.json())
           .then((data) => {
             alert("刪除成功");
-            getAllProducts(); // 重新獲取並顯示所有產品
+            getAllProducts();
           })
           .catch((error) => console.error("錯誤:", error));
       }

@@ -23,7 +23,6 @@ public class WarehouseController extends HttpServlet {
         if ("getAll".equals(action)) {
             resp = wh.getAllWarehouses();
         } else {
-            // 其他 GET 请求的处理
         }
 
         jsr.response(resp, response);

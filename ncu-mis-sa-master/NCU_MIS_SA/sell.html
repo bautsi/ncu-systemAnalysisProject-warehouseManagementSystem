@@ -4,7 +4,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>庫存追蹤系統</title>
+    <title>銷售報告</title>
     <script
       src="https://kit.fontawesome.com/9b680ef726.js"
       crossorigin="anonymous"
@@ -132,7 +132,7 @@
 
       .report-text.left,
       .report-text.right {
-        font-size: 50px; /* Increased font size */
+        font-size: 50px;
       }
 
       .report-text.left {
@@ -158,7 +158,6 @@
         font-size: 18px;
         font-weight: bold;
         margin: 0 50px;
-        /* 調整這個值，控制文字之間的距離 */
       }
 
       .center-text {
@@ -195,18 +194,6 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>可樂</td>
-          <td>45</td>
-          <td>89</td>
-          <td>2492</td>
-        </tr>
-        <tr>
-          <td>蛋白粉</td>
-          <td>21</td>
-          <td>15</td>
-          <td>16485</td>
-        </tr>
       </tbody>
     </table>
 
@@ -225,16 +212,14 @@
           contentType: "application/json",
           data: JSON.stringify({ action: "generateSalesReport" }),
           success: function (response) {
-            // 清空表格内容
             $("#trackingTable tbody").empty();
 
-            // 初始化最大销售数量和对应的产品名称
             var maxQuantity = -1;
             var topSalesProduct = "";
             var maxSalesTotal = -1;
             var bestSellingProduct = "";
 
-            // 填充表格并找到销量王和销冠王
+            // 填充表格且找到销量王和销冠王
             response.response.response.forEach(function (salesData) {
               const row = `<tr>
                             <td>${salesData.product_name}</td>
@@ -244,25 +229,22 @@
                         </tr>`;
               $("#trackingTable tbody").append(row);
 
-              // 检查当前行的销售数量是否大于当前最大值
               if (salesData.total_quantity > maxQuantity) {
                 maxQuantity = salesData.total_quantity;
                 topSalesProduct = salesData.product_name;
               }
 
-              // 检查当前行的销售额是否大于当前最大销售总额
               if (salesData.total_sales > maxSalesTotal) {
                 maxSalesTotal = salesData.total_sales;
                 bestSellingProduct = salesData.product_name;
               }
             });
 
-            // 更新销量王和销冠王
             $("#topSalesProduct").text(`销量王: ${topSalesProduct}`);
             $("#bestSellingProduct").text(`销冠王: ${bestSellingProduct}`);
           },
           error: function () {
-            alert("无法连接到服务器");
+            alert("無法連接到伺服器");
           },
         });
       });

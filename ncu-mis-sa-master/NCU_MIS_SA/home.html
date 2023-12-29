@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>倉儲管理系統</title>
     <style>
-      /******************************
-Flexbox Layout
-*******************************/
 
       .header,
       .nav {
@@ -43,14 +40,10 @@ Flexbox Layout
         }
       }
 
-      /******************************
-Treehouse Styling
-*******************************/
-
       body {
         margin: 0;
         font-family: Helvetica;
-        background: url("statics/img/background.png") top center
+        background: url("statics/img/background1.jpg") top center
           no-repeat;
         background-size: cover;
       }
@@ -64,12 +57,12 @@ Treehouse Styling
         background: transparent url("statics/img/homeicon.png") center
           center no-repeat;
         width: 195px;
-        height: 65px; /* 調整高度 */
+        height: 65px;
         background-size: contain;
         text-indent: 100%;
         white-space: nowrap;
         overflow: hidden;
-        transform: scale(4); /* 放大三倍 */
+        transform: scale(4);
       }
 
       .nav {
@@ -82,12 +75,12 @@ Treehouse Styling
       .nav li a {
         text-decoration: none;
         color: #010101;
-        font-size: 16px; /* 調整字體大小 */
-        font-weight: bold; /* 加粗 */
+        font-size: 16px;
+        font-weight: bold;
         text-transform: uppercase;
-        background: transparent; /* 新增這行，使背景透明 */
+        background: transparent;
         border-radius: 2px;
-        transition: background 200ms ease-in-out; /* 調整 transition 效果 */
+        transition: background 200ms ease-in-out;
         padding: 8px 16px 7px;
       }
 
@@ -131,7 +124,6 @@ Treehouse Styling
     </header>
     <script>
       function loadWarehousePage() {
-        // 使用 JavaScript 將兩個介面切換
         window.location.href = "warehouse.html";
       }
       function loadgoods() {

@@ -220,27 +220,26 @@
         <script>
       $(document).ready(function () {
         $("#loginBtn").on("click", function (event) {
-          event.preventDefault(); // 阻止表单默认提交行为
+          event.preventDefault(); // 沒東西不准提交
 
           var data = {
-            action: "login", // 根据您的 ManagerController 实现添加的 action 参数
+            action: "login",
             email: $("#inputEmail").val(),
             password: $("#inputPassword").val(),
           };
 
           $.ajax({
             method: "POST",
-            url: "api/manager.do", // 替换为您的 ManagerController 接口 URL
+            url: "api/manager.do", 
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(data), // 发送 JSON 格式的数据
+            data: JSON.stringify(data),
           })
             .done(function (msg) {
-              // 处理登录成功的情况
               if (msg.status === "200") {
-                window.location.href = "manager.html"; // 登录成功后的跳转
+                window.location.href = "manager.html";
               } else {
-                alert(msg.message); // 显示错误消息
+                alert(msg.message);
               }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
