@@ -173,7 +173,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Rows will be dynamically added here -->
             </tbody>
         </table>
     
@@ -192,7 +191,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Rows will be dynamically added here -->
             </tbody>
         </table>
         <script>
@@ -214,7 +212,6 @@
         .catch((error) => console.error("Error:", error));
             }
 
-            // HTML 和 JavaScript
 
 function populateTable(orders){
     const tbody1 = document.querySelector('#completedOrdersTable tbody');
@@ -262,7 +259,7 @@ function packOrder(orderId, button) {
     .then((data) => {
         if (data.status === "200") {
             alert("訂單打包成功");
-            viewOrders(); // 刷新列表
+            viewOrders();
         } else {
             alert("打包失敗: " + data.message);
         }
@@ -316,16 +313,14 @@ function packOrder(orderId, button) {
     })
     .then((response) => response.json())
     .then((data) => {
-        // 檢查是否存在 error 屬性
         if (data.response && data.response.error) {
-            // 如果存在 error，顯示錯誤信息
+
             alert('該地址無該產品');
         } else if (data.status === "200") {
-            // 如果沒有 error，並且 status 為 "200"，則顯示成功信息
+
             alert(data.message);
-            viewOrders(); // 只在添加操作成功后调用
+            viewOrders();
         } else {
-            // 如果既沒有 error，也沒有成功的 status，顯示通用錯誤信息
             alert("發生錯誤: " + data.message);
         }
     })
@@ -337,7 +332,7 @@ function packOrder(orderId, button) {
                 const row = document.querySelector(`#completedOrdersTable tbody tr[data-id="${orderId}"]`);
                 if (!row)return;
 
-                // 将单元格转换为输入字段
+
                 const suppliernumberCell = row.cells[1];
                 const currnetsuppliernumber = suppliernumberCell.textContent;
                 suppliernumberCell.innerHTML = `<input type="text" value="${currnetsuppliernumber}">`;
@@ -354,7 +349,6 @@ function packOrder(orderId, button) {
                 const currentorderstatus = orderstatusCell.textContent;
                 orderstatusCell.innerHTML = `<input type="text" value="${currentorderstatus}">`;
 
-                // 将编辑按钮转换为保存按钮
                 const editButton = row.cells[7].querySelector('button');
                 editButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
                 editButton.onclick = () => saveCompletedOrder(orderId, row); // 传递 row 参数
@@ -365,7 +359,6 @@ function packOrder(orderId, button) {
                 const row = document.querySelector(`#pendingOrdersTable tbody tr[data-id="${orderId}"]`);
                 if (!row)return;
 
-                // 将单元格转换为输入字段
                 const suppliernumberCell = row.cells[1];
                 const currnetsuppliernumber = suppliernumberCell.textContent;
                 suppliernumberCell.innerHTML = `<input type="text" value="${currnetsuppliernumber}">`;
@@ -382,7 +375,6 @@ function packOrder(orderId, button) {
                 const currentorderstatus = orderstatusCell.textContent;
                 orderstatusCell.innerHTML = `<input type="text" value="${currentorderstatus}">`;
 
-                // 将编辑按钮转换为保存按钮
                 const editButton = row.cells[7].querySelector('button');
                 editButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
                 editButton.onclick = () => savePendingOrder(orderId, row); // 传递 row 参数
@@ -405,7 +397,7 @@ function packOrder(orderId, button) {
     .then((data) => {
         if (data.status === "200") {
             alert("編輯成功");
-            location.reload(); // 重新加載頁面
+            location.reload();
         } else {
             alert("更新失敗: " + data.message);
         }
@@ -433,7 +425,7 @@ function savePendingOrder(orderId, row) {
     .then((data) => {
         if (data.status === "200") {
             alert("編輯成功");
-            location.reload(); // 重新加載頁面
+            location.reload();
         } else {
             alert("更新失敗: " + data.message);
         }
@@ -455,14 +447,11 @@ function savePendingOrder(orderId, row) {
     .then((response) => response.json())
     .then((data) => {
         if (data.response && data.response.error) {
-            // 如果存在 error，顯示錯誤信息
             alert("刪除失敗: " + data.response.error);
         } else if (data.status === "200") {
-            // 如果沒有 error，並且 status 為 "200"，則顯示成功信息
             alert("刪除成功");
-            viewOrders(); // 刷新列表
+            viewOrders();
         } else {
-            // 如果既沒有 error，也沒有成功的 status，顯示通用錯誤信息
             alert("發生錯誤: " + data.message);
         }
     })
@@ -480,4 +469,4 @@ function savePendingOrder(orderId, row) {
             document.addEventListener("DOMContentLoaded", viewOrders);
         </script>
     </body>
-    </html>
+</html>
