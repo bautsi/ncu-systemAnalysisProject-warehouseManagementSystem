@@ -101,7 +101,7 @@ CREATE TABLE `orders` (
 
 
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,'猴子',100,20,'2023-12-11 22:04:48','Packed'),(2,1,'松果',20,100,'2023-12-13 14:29:55','Packed'),(3,2,'松果',20,200,'2023-12-17 00:09:37','Not Packed'),(4,3,'猴子',100,400,'2023-12-18 18:39:40','Not Packed');
+INSERT INTO `orders` VALUES (1,1,'猴子',100,30,'2023-12-11 22:04:48','Packed'),(2,1,'松果',20,100,'2023-12-13 14:29:55','Packed'),(3,2,'松果',20,200,'2023-12-17 00:09:37','Not Packed'),(4,3,'猴子',100,400,'2023-12-18 18:39:40','Not Packed');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 
 
