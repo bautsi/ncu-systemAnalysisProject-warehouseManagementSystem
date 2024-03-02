@@ -6,3 +6,6 @@
 5. 需求、分析、設計文件 - 系統分析專案文件，可能有些與系統本身不同
 6. 初版、切版設計圖檔 - 網頁視覺設計，初版設計圖包含初版與精修版，切版設計圖為精修plus版
 7. er_model檔 - 資料庫之er圖
+
+環境架設方式: https://www.youtube.com/watch?v=ivaI7i7CvEc&ab_channel=%E5%8A%89%E6%B5%A9%E5%B9%B3
+
